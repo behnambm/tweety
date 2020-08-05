@@ -1,0 +1,19 @@
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" style="min-height: 300px; max-width: 600px; display: block; margin: 0 auto;">
+        <form action="{{ url_for('post_tweet') }}" method="POST">
+            
+          {{ post_tweet_form.csrf_token }}
+            <div class="form-group post-tweet-form-group">
+
+              <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="" class="user-avatar-img">
+              {{ post_tweet_form.tweet_text(placeholder="What's happening?", rows="3", id="exampleFormControlTextarea1", class="form-control tweet-text-area-inp") }}
+            <button type="submit" class="btn btn-primary">Tweet</button>
+            </div>
+
+          </form>
+
+
+    </div>
+  </div>
+</div>

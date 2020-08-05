@@ -1,0 +1,154 @@
+@media (min-width: 768px) { 
+    span.left-menu-text {
+        font-size: 13px;
+    }
+    .left-side-menu{
+        position: fixed;
+        max-width: 250px;
+        margin-left: 20px;
+    }
+}
+
+@media (min-width: 992px) {   
+    span.left-menu-text {
+        font-size: 16px;
+    }
+    .left-side-menu{
+        position: fixed;
+        max-width: 250px;
+        margin-left: 20px;
+    }
+}
+
+
+
+
+@media only screen and (max-width: 576px){
+    .tweet-footer{
+        padding-left: 10px !important;
+    }
+    
+}
+.clear{
+    clear: both;
+}
+
+.left-menu-text{
+    margin-left: 10px;
+}
+
+.tweet-head .user-avatar img, .user-avatar-img{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.tweet-head .tweet-user-link-area{
+    font-size: 14px;
+}
+
+
+
+
+
+.tweet-head .tweet-user-link-area .user-name{
+    margin-top: 3px;
+    margin-left: 10px;
+    font-size: 16px;
+}
+
+
+.tweet-head .tweet-user-link-area .user-username{
+    color: #888;
+    margin-top: 3px;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.tweet-head .tweet-datetime{
+    color: #888;
+    margin-top: 3px;
+    margin-left: 5px;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+
+
+.tweet-body{
+    padding-left: 60px;
+}
+
+.tweet-footer{
+    padding-left: 60px;
+}
+
+
+
+
+.fr{
+    float: right;
+}
+
+.fl{
+    float: left;
+}
+
+.cp { /*  cursor pointer */
+    cursor: pointer;
+}
+
+
+.tweet-btn-in-left-menu{
+    width: 100%;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    outline: none;
+    padding: 10px 0;
+    box-shadow: none !important;
+}
+
+.whole-tweet-link{
+    text-decoration: none !important;
+    color: black !important;
+}
+
+.single-page-tweet-datetime {
+    border-top: 1px solid #eee;
+    margin-top: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding: 5px 0;
+    padding-left: 5px;
+    color: #999;
+    font-size: 15px;
+}
+
+
+.post-tweet-form-group{
+    padding: 10px;
+}
+
+.post-tweet-form-group textarea{
+    float: left;
+    max-width: 500px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    height: 230px;
+    margin-bottom: 10px;
+    resize: none;
+
+}
+.post-tweet-form-group textarea:focus{
+    box-shadow: none;
+}
+
+.post-tweet-form-group button{
+    float: right;
+}
+
+.post-tweet-form-group img{
+    float: left;
+}
