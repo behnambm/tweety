@@ -23,7 +23,6 @@ def post_tweet():
     form = PostTweetForm()
     if form.validate():
         tw = Tweet(username='f')
-        print('s')
         db.session.add(tw)
         db.session.commit()
 

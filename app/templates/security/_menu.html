@@ -9,7 +9,7 @@
   {% endif %}
   {% endif %}
   {% if security.recoverable %}
-  {% if request.endpoint != 'security.forgot_password' %}
+  {% if request.endpoint != 'security.forgot_password' and request.endpoint != 'security.reset_password' %}
   <li><a href="{{ url_for_security('forgot_password') }}">{{ _('Forgot password') }}</a><br/></li>
   {% endif %}
   {% endif %}

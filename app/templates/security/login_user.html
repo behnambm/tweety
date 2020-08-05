@@ -26,6 +26,15 @@
     <div class="form-group">
         <label for="password">Password</label>
         {{ login_user_form.password(class='form-control') }}
+
+        {% if login_user_form.password.errors %}
+        <ul>
+        {% for error in login_user_form.password.errors %}
+          <li><small class="text-danger">{{ error }}</small></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+
     </div>
 
     <div class="form-group">
