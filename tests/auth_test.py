@@ -32,8 +32,10 @@ class AuthTestCate(BaseTestCase):
         self.assertEqual(user.email, 'test@gmail.com')
 
     def test_index_is_login_required(self):
-        response = requests.get('http://localhost:5000')
-        self.assertIn('<h1>Login</h1>', response.text)
+        """ Ensure that users who are not logged in can not see the index page"""
+        response = self.client.get('/')
+        self.assertRedirects(response, '/login?next=%2F')
+
 
     def test_user_logs_in_correctly(self):
         """ Ensure that the user can login successfully with correct credentials """
