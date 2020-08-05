@@ -29,7 +29,8 @@ class User(db.Model, UserMixin):
     current_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))
     current_login_ip = db.Column(db.String(100))
-    avatar_path = db.Column(db.String)  # TODO -> add the default user icon url
+    avatar_path = db.Column(db.String, default='/img/person.png')  # TODO -> add the default user icon url
+    login_count = db.Column(db.Integer)
     roles = db.relationship('Role',
                             secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
