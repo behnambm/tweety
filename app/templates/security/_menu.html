@@ -1,20 +1,33 @@
 {% if security.registerable or security.recoverable or security.confirmable %}
 <ul style="list-style: none; padding: 0;">
     {% if request.endpoint != 'security.login' %}
-  <li><a href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">{{ _('Login') }}</a></li>
-  {% endif %}
-  {% if security.registerable %}
+        <li>
+            <a href="{{ url_for_security('login') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">{{ _('Login') }}</a>
+        </li>
+    {% endif %}
+
+    {% if security.registerable %}
     {% if request.endpoint != 'security.register' %}
-  <li><a href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">{{ _('Register') }}</a><br/></li>
-  {% endif %}
-  {% endif %}
-  {% if security.recoverable %}
-  {% if request.endpoint != 'security.forgot_password' and request.endpoint != 'security.reset_password' %}
-  <li><a href="{{ url_for_security('forgot_password') }}">{{ _('Forgot password') }}</a><br/></li>
-  {% endif %}
-  {% endif %}
-  {% if security.confirmable %}
-  <li><a href="{{ url_for_security('send_confirmation') }}">{{ _('Confirm account') }}</a></li>
-  {% endif %}
+        <li>
+            <a href="{{ url_for_security('register') }}{% if 'next' in request.args %}?next={{ request.args.next|urlencode }}{% endif %}">{{ _('Register') }}</a>
+            <br/>
+        </li>
+    {% endif %}
+    {% endif %}
+
+    {% if security.recoverable %}
+    {% if request.endpoint != 'security.forgot_password' and request.endpoint != 'security.reset_password' %}
+        <li>
+            <a href="{{ url_for_security('forgot_password') }}">{{ _('Forgot password') }}</a>
+            <br/>
+        </li>
+    {% endif %}
+    {% endif %}
+
+    {% if security.confirmable %}
+        <li>
+            <a href="{{ url_for_security('send_confirmation') }}">{{ _('Confirm account') }}</a>
+        </li>
+    {% endif %}
 </ul>
 {% endif %}

@@ -37,7 +37,6 @@ def post_tweet():
     return 'ok', 201
 
 
-
 @app.context_processor
-def post_tweet_form():  # to make post tweet form available in all templatas
+def post_tweet_form():  # to make post tweet form available in all templates
     return dict(post_tweet_form=PostTweetForm())

@@ -1,4 +1,4 @@
-@media (min-width: 768px) { 
+@media (min-width: 768px) {
     span.left-menu-text {
         font-size: 13px;
     }
@@ -9,7 +9,7 @@
     }
 }
 
-@media (min-width: 992px) {   
+@media (min-width: 992px) {
     span.left-menu-text {
         font-size: 16px;
     }
@@ -31,13 +31,12 @@
 
 }
 
-
 @media only screen and (max-width: 576px){
     .tweet-footer{
         padding-left: 10px !important;
     }
-    
 }
+
 .clear{
     clear: both;
 }
@@ -56,16 +55,11 @@
     font-size: 14px;
 }
 
-
-
-
-
 .tweet-head .tweet-user-link-area .user-name{
     margin-top: 3px;
     margin-left: 10px;
     font-size: 16px;
 }
-
 
 .tweet-head .tweet-user-link-area .user-username{
     color: #888;
@@ -83,8 +77,6 @@
     margin-right: 10px;
 }
 
-
-
 .tweet-body{
     padding-left: 60px;
 }
@@ -92,9 +84,6 @@
 .tweet-footer{
     padding-left: 60px;
 }
-
-
-
 
 .fr{
     float: right;
@@ -107,7 +96,6 @@
 .cp { /*  cursor pointer */
     cursor: pointer;
 }
-
 
 .tweet-btn-in-left-menu{
     width: 100%;
@@ -134,7 +122,6 @@
     font-size: 15px;
 }
 
-
 .post-tweet-form-group{
     padding: 10px;
 }
@@ -144,12 +131,12 @@
     max-width: 500px;
     border: none;
     outline: none;
-    box-shadow: none;
     height: 230px;
     margin-bottom: 10px;
     resize: none;
-    box-shadow: dodgerblue 0px 0px 5px 0px
+    box-shadow: dodgerblue 0 0 5px 0;
 }
+
 .post-tweet-form-group textarea:focus{
     box-shadow: none;
 }
@@ -195,6 +182,7 @@
     padding-bottom: 5px;
     padding-top: 3px;
 }
+
 #bottom-menu button{
     background-color: #34a0fe;
     border: none;

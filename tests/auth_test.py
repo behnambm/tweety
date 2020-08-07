@@ -36,7 +36,6 @@ class AuthTestCate(BaseTestCase):
         response = self.client.get('/')
         self.assertRedirects(response, '/login?next=%2F')
 
-
     def test_user_logs_in_correctly(self):
         """ Ensure that the user can login successfully with correct credentials """
         response = self.client.post('/login',
@@ -58,11 +57,13 @@ class AuthTestCate(BaseTestCase):
         self.assertTemplateUsed('security/login_user.html')
 
     def test_reset_password(self):
+        """ Ensure that the mail sent successful """
         response = self.client.post('/reset',
                                     data={
                                         'email': 'test@gmail.com'
                                     })
         self.assertIn('Instructions to reset your password have been sent to test@gmail.com.', str(response.data))
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -11,18 +11,12 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
-    
-
 
     <div class="container" style="max-width: 1100px; margin: 20px auto;">
         <div class="row">
-
-            {% block content %}
-            {% endblock %}
-
+            {% block content %} {% endblock %}
         </div>
     </div>
- 
 
     {% include 'post_tweet.html' %}
 

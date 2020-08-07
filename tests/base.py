@@ -12,6 +12,8 @@ class BaseTestCase(TestCase):
     """ A base test case for testing the twitter app"""
 
     def create_app(self):
+        """ This method will be executed for each unit test"""
+
         app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(
             os.path.dirname(os.path.abspath(__name__)),
             'test_db.sqlite'

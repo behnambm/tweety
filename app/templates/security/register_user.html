@@ -1,81 +1,80 @@
 {% extends "base.html" %}
 
-{% block content %}
 
+{% block content %}
 <div class="col-xs-12 col-sm-8 col-md-6 col-lg-4" style="margin: 0 auto;">
     {% include "security/_messages.html" %}
 
     <h1>{{ _('Register') }}</h1>
+
     <hr>
+
     <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
-    {{ register_user_form.hidden_tag() }}
+        {{ register_user_form.hidden_tag() }}
 
-    <div class="form-group">
-        <label for="username">Username</label>
-        {{ register_user_form.username(class="form-control") }}
+        <div class="form-group">
+            <label for="username">Username</label>
+            {{ register_user_form.username(class="form-control") }}
 
-        {% if register_user_form.username.errors %}
-        <ul>
-        {% for error in register_user_form.username.errors %}
-          <li><small class="text-danger">{{ error }}</small></li>
-        {% endfor %}
-        </ul>
+            {% if register_user_form.username.errors %}
+            <ul>
+            {% for error in register_user_form.username.errors %}
+              <li><small class="text-danger">{{ error }}</small></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            {{ register_user_form.email(class="form-control") }}
+
+            {% if register_user_form.email.errors %}
+            <ul>
+            {% for error in register_user_form.email.errors %}
+              <li><small class="text-danger">{{ error }}</small></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            {{ register_user_form.password(class="form-control") }}
+
+            {% if register_user_form.password.errors %}
+            <ul>
+            {% for error in register_user_form.password.errors %}
+                <li><small class="text-danger">{{ error }}</small></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+
+        {% if register_user_form.password_confirm %}
+            <div class="form-group">
+            <label for="password_confirm">Retype password</label>
+            {{ register_user_form.password_confirm(class="form-control") }}
+
+            {% if register_user_form.password_confirm.errors %}
+            <ul>
+            {% for error in register_user_form.password_confirm.errors %}
+                <li><small class="text-danger">{{ error }}</small></li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
         {% endif %}
-    </div>
 
-    <div class="form-group">
-        <label for="email">Email</label>
-        {{ register_user_form.email(class="form-control") }}
+        <br>
 
-        {% if register_user_form.email.errors %}
-        <ul>
-        {% for error in register_user_form.email.errors %}
-          <li><small class="text-danger">{{ error }}</small></li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-
-    <div class="form-group">
-        <label for="password">Password</label>
-        {{ register_user_form.password(class="form-control") }}
-
-        {% if register_user_form.password.errors %}
-        <ul>
-        {% for error in register_user_form.password.errors %}
-            <li><small class="text-danger">{{ error }}</small></li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-
-    {% if register_user_form.password_confirm %}
-    <div class="form-group">
-        <label for="password_confirm">Retype password</label>
-        {{ register_user_form.password_confirm(class="form-control") }}
-
-        {% if register_user_form.password_confirm.errors %}
-        <ul>
-        {% for error in register_user_form.password_confirm.errors %}
-            <li><small class="text-danger">{{ error }}</small></li>
-        {% endfor %}
-        </ul>
-        {% endif %}
-    </div>
-    {% endif %}
-
-    <br>
-    <div class="form-group">
-        {{ register_user_form.submit(class="form-control btn btn-primary") }}
-    </div>
-
-    
+        <div class="form-group">
+            {{ register_user_form.submit(class="form-control btn btn-primary") }}
+        </div>
     </form>
+
     <hr>
+
     {% include "security/_menu.html" %}
-
 </div>
-
-
-
 {% endblock %}

@@ -28,11 +28,7 @@ app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
 app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
 app.config['MAIL_USE_TLS'] = os.environ['MAIL_USE_TLS']
 mail = Mail(app)
+
+
 from app.views import *
 
-
-@app.before_first_request
-def db_stuff():
-    from app.models import db
-    db.create_all()
-    print('s')

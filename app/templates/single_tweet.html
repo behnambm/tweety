@@ -1,18 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-
 <div class="col-xs-12 col-sm-12 col-md-6 offset-md-3 contect-body">
     <div class="time-line" data-spy="scroll" class="scrollspy-example" data-target="#list-example">
-                        
-
-
         <div class="tweet">
             <div class="tweet-head">
                     <div class="tweet-user-link-area">
                         <div class="user-avatar fl">
-                            <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="thsi user">
+                            <img src="{{ url_for('static', filename='img/1.jpg') }}" alt="thsi user">
                         </div>
                         <div class="user-name fl">
                             Behnumm :) a random string
@@ -22,10 +17,8 @@
                         </div>
                     </div>
             </div>
-
             <div class="clear"></div>
             <div class="tweet-body">
-                
                 <div class="tweet-text" style="font-size: 18px;">
                     Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus maxime molestias rem perspiciatis! Pariatur officia magni animi amet hic aspernatur repellendus iste harum repellat laboriosam cum, iure veritatis! Consequatur, iure.
                 </div>
@@ -35,12 +28,10 @@
                     .
                     Jul 30, 2020
                 </div>
-
             </div>
             <div class="tweet-footer">
                 <div class="row">
                     <div class="tweet-footer-reply col-2">
-
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chat cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
                         class="btn btn-primary tweet-btn-in-left-menu" data-toggle="modal" data-target=".bd-example-modal-lg"
                         >
@@ -69,14 +60,10 @@
                             <path fill-rule="evenodd" d="M13.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm-11-6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
                         </svg>
                     </div>
-
                 </div>
             </div>
         </div>
         <hr>
     </div>
 </div>
-
-
-
 {% endblock %}

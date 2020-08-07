@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
-import time
-
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -29,7 +28,7 @@ class User(db.Model, UserMixin):
     current_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(100))
     current_login_ip = db.Column(db.String(100))
-    avatar_path = db.Column(db.String, default='/img/person.png')  # TODO -> add the default user icon url
+    avatar_path = db.Column(db.String, default='/img/person.png')
     login_count = db.Column(db.Integer)
     roles = db.relationship('Role',
                             secondary=roles_users,
@@ -46,5 +45,5 @@ class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tweeted_by = db.Column(db.Integer, db.ForeignKey('user.id'))
     text = db.Column(db.String(280), nullable=False)
-    tweeted_at = db.Column(db.DateTime(), default=time.time)  # saves the timestamp
+    tweeted_at = db.Column(db.DateTime(), default=datetime.utcnow)
     likes = db.relationship('Like', backref='tweet', lazy='dynamic')
