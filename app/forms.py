@@ -6,7 +6,7 @@ from .models import User
 
 
 class PostTweetForm(FlaskForm):
-    tweet_text = TextAreaField(validators=[DataRequired(message='Tweet can not be empty.'), Length(min=1, max=280,
+    text = TextAreaField(validators=[DataRequired(message='Tweet can not be empty.'), Length(min=1, max=280,
                                                                                                    message='Tweet can not be more than 280 characters.')])
 
 

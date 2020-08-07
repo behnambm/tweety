@@ -18,9 +18,18 @@
         max-width: 250px;
         margin-left: 20px;
     }
+
 }
 
+@media (max-width: 992px) {
+    .modal-content{
+        height: 370px;
+    }
+}
 
+@media (max-width: 768px) {
+
+}
 
 
 @media only screen and (max-width: 576px){
@@ -139,7 +148,7 @@
     height: 230px;
     margin-bottom: 10px;
     resize: none;
-
+    box-shadow: dodgerblue 0px 0px 5px 0px
 }
 .post-tweet-form-group textarea:focus{
     box-shadow: none;
@@ -151,4 +160,60 @@
 
 .post-tweet-form-group img{
     float: left;
+    margin: 10px;
+}
+
+#message-alert-custom{
+    position: fixed;
+    display: none;
+    bottom: 25px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: #34a0fe;
+    color: #FFF;
+    border-radius: 5px;
+    font-size: 16px;
+    z-index: 9;
+    min-height: fit-content;
+    padding: 5px;
+}
+
+@media (max-width: 768px) {
+    #message-alert-custom{
+        top: 15px;
+    }
+}
+
+#message-alert-text{
+    text-align: center;
+    margin: 0;
+}
+
+#bottom-menu a {
+    text-align: center;
+    color: #FFF;
+    padding-bottom: 5px;
+    padding-top: 3px;
+}
+#bottom-menu button{
+    background-color: #34a0fe;
+    border: none;
+    color: #FFF;
+    font-size: 28px;
+    position: fixed;
+    bottom: 40px;
+    right: 10px;
+    padding: 0 10px 5px 10px;
+    border-radius: 50%;
+    outline: none;
+}
+
+.container-fluid-bottom-menu{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.active-line{
+    border-bottom: 2px solid #FFF;
 }

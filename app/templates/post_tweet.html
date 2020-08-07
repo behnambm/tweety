@@ -7,8 +7,8 @@
             <div class="form-group post-tweet-form-group">
 
               <img src="{{ url_for('static', filename='images/1.jpg') }}" alt="" class="user-avatar-img">
-              {{ post_tweet_form.tweet_text(placeholder="What's happening?", rows="3", id="exampleFormControlTextarea1", class="form-control tweet-text-area-inp") }}
-            <button type="submit" class="btn btn-primary">Tweet</button>
+              {{ post_tweet_form.text(placeholder="What's happening?", rows="3", id="exampleFormControlTextarea1", class="form-control tweet-text-area-inp") }}
+            <button type="submit" class="btn btn-primary" id="post-tweet-btn-modal">Tweet</button>
             </div>
 
           </form>
