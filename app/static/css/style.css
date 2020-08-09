@@ -205,3 +205,89 @@
 .active-line{
     border-bottom: 2px solid #FFF;
 }
+
+.user-display-name{
+    font-size: 24px;
+}
+
+.user-image img {
+    max-width: 110px;
+    max-height: 110px;
+    border-radius: 50%;
+}
+
+#edit-user-info-btn{
+    background-color: #fff;
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1px 1px #19a0ff;
+    border-radius: 20px;
+    padding: 5px 10px;
+    color: #1e9af1;
+    font-size: 18px;
+    font-weight: bold;
+    float: right;
+}
+
+#edit-user-info-btn:hover{
+    background-color: rgb(30 154 241 / 0.1);
+}
+
+.user-username{
+    color: #888;
+}
+
+.joined-date {
+    color: #888;
+}
+
+.user-following{
+    float: left;
+    margin-right: 30px;
+}
+
+.tc{
+    text-align: center;
+}
+
+.bold{
+    font-weight: bold;
+}
+.follow-count{
+    font-weight: bold;
+}
+
+.follow-count span{
+    font-weight: normal;
+}
+
+.gray{
+    color: #888;
+}
+
+.user-timeline{
+    padding-top: 20px;
+}
+
+.user-timeline-actions{
+    margin-bottom: 10px;
+}
+
+.user-timeline-actions .timeline-action{
+    padding: 7px 0;
+    border-bottom: 0.01em solid #eee;
+
+}
+
+.user-timeline-actions .timeline-action.active{
+    color: #1e9af1;
+    border-bottom: 2px solid #1e9af1;
+}
+
+.user-timeline-actions .timeline-action:hover{
+    color: #1e9af1;
+    background-color: rgb(30 154 241 / 0.07);
+}
+
+
+
