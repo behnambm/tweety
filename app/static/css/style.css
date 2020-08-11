@@ -276,6 +276,7 @@
 .user-timeline-actions .timeline-action{
     padding: 7px 0;
     border-bottom: 0.01em solid #eee;
+    cursor: pointer;
 
 }
 
