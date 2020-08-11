@@ -1,6 +1,8 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_security import UserMixin, RoleMixin
+import time
 from datetime import datetime
+
 
 db = SQLAlchemy()
 
@@ -45,5 +47,5 @@ class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tweeted_by = db.Column(db.Integer, db.ForeignKey('user.id'))
     text = db.Column(db.String(280), nullable=False)
-    tweeted_at = db.Column(db.DateTime(), default=datetime.utcnow)
+    tweeted_at = db.Column(db.String(), default=time.time)
     likes = db.relationship('Like', backref='tweet', lazy='dynamic')
