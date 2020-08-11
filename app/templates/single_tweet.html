@@ -1,8 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="col-xs-12 col-sm-12 col-md-6 offset-md-3 contect-body">
-    <div class="time-line" data-spy="scroll" class="scrollspy-example" data-target="#list-example">
+{% include 'left_side_menu.html' %}
+
+
+<div class="col-xs-12 col-sm-12 col-md-8 offset-md-3 col-lg-6 contect-body">
+    <div class="time-line" data-spy="scroll" data-target="#list-example">
         <div class="tweet">
             <div class="tweet-head">
                     <div class="tweet-user-link-area">
