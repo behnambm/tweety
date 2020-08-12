@@ -6,6 +6,7 @@ from .forms import ExtendedRegisterForm
 from flask_debugtoolbar import DebugToolbarExtension
 from flask_mail import Mail
 import os
+from flask_marshmallow import Marshmallow
 
 
 app = Flask(__name__)
@@ -29,6 +30,7 @@ app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
 app.config['MAIL_USE_TLS'] = os.environ['MAIL_USE_TLS']
 mail = Mail(app)
 
+ma = Marshmallow(app)
 
 from app.views import *
 

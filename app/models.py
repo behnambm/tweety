@@ -35,6 +35,7 @@ class User(db.Model, UserMixin):
     roles = db.relationship('Role',
                             secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
+    tweets = db.relationship('Tweet', backref='user', lazy='dynamic')
 
 
 class Like(db.Model):

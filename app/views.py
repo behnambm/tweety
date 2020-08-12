@@ -1,9 +1,10 @@
 from . import app
-from flask import render_template, abort
+from flask import render_template, request, jsonify
 from .forms import PostTweetForm
 from .models import db, Tweet, User
 from flask_security import login_required, current_user
-from datetime import datetime
+import time
+from app.schema import TweetSchema
 
 
 @app.route('/')
@@ -25,7 +26,7 @@ def post_tweet():
     if form.validate():
         tw = Tweet(
             text=form.text.data,
-            tweeted_at=datetime.utcnow(),
+            tweeted_at=time.time(),
             tweeted_by=current_user.id
         )
         try:
@@ -57,6 +58,31 @@ def profile(username):
                            profile_active=True,
                            user=current_user,
                            not_found=False)
+
+
+@app.route('/profile/get_user_tweet/', methods=['POST'])
+@login_required
+def get_user_tweet():
+    u_id = request.form.get('u_id')
+    tweet_count = request.form.get('tweet_count', 10)
+    offset_count = request.form.get('offset_count', 0)
+    tweets_from_db = (Tweet.query.filter_by(tweeted_by=u_id).
+                      order_by(Tweet.tweeted_at.desc()).
+                      offset(offset_count).
+                      limit(tweet_count).
+                      all())
+
+    tweet_schema = TweetSchema(many=True)
+    tweets = tweet_schema.dump(tweets_from_db)
+
+    # to put the length of likes in response
+    for tweet in tweets:
+        tweet['likes'] = len(tweet['likes'])
+
+        # replace <br> with \n in tweet text
+        tweet['text'] = tweet['text'].replace('\n', '<br>')
+
+    return jsonify(tweets)
 
 
 @app.context_processor
