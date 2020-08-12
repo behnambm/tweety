@@ -290,5 +290,10 @@
     background-color: rgb(30 154 241 / 0.07);
 }
 
+.tweet .likes-count{
+    font-size: 13px;
+}
 
-
+.tweets-list .tweet-footer{
+    color: #777;
+}

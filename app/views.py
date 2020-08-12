@@ -5,6 +5,7 @@ from .models import db, Tweet, User
 from flask_security import login_required, current_user
 import time
 from app.schema import TweetSchema
+from app.functions import tweet_text_processor
 
 
 @app.route('/')
@@ -32,10 +33,14 @@ def post_tweet():
         try:
             db.session.add(tw)
             db.session.commit()
+            tweet_schema = TweetSchema()
+            tweet = tweet_schema.dump(tw)
+            tweet['text'] = tweet_text_processor(tweet)
+            tweet['likes'] = len(tweet['likes'])
+            return jsonify(tweet), 201
         except Exception as e:  # TODO add logging
             db.session.rollback()
             return 'err', 500
-    return 'ok', 201
 
 
 @app.route('/<username>')
@@ -79,8 +84,8 @@ def get_user_tweet():
     for tweet in tweets:
         tweet['likes'] = len(tweet['likes'])
 
-        # replace <br> with \n in tweet text
-        tweet['text'] = tweet['text'].replace('\n', '<br>')
+        # some processes on tweet's text like -> replacing <br> with \n in tweet text
+        tweet['text'] = tweet_text_processor(tweet)
 
     return jsonify(tweets)
 
