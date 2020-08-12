@@ -50,7 +50,8 @@ def profile(username):
         else:
             return render_template('profile.html',
                                    profile_active=True,
-                                   not_found=True)
+                                   not_found=True,
+                                   username=username)
 
     return render_template('profile.html',
                            profile_active=True,
