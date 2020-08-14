@@ -42,8 +42,11 @@ $(document).ready(()=>{
                         $('#exampleFormControlTextarea1').val('');
                     });
 
-                    // to update timeline after posting a tweet
-                    if (document.location.pathname != '/') {
+                    // (first condition)                    to update timeline after posting a tweet
+                    // (second condition explanation )      i use below code to avoid appending
+                    //                                      tweet to the timeline that is not belong
+                    //                                      to the current user.
+                    if (document.location.pathname != '/' && current_user == username) {
                         $('.no-tweets-yet').remove();
                         $('.tweets-list').prepend(generate_tweet(response))
                     }
@@ -82,6 +85,10 @@ function generate_tweet(tweet_data){
             }
         } else {
             console.log('something is wrong if you can see this' + sliced_time);
+        }
+        let is_liked = false;
+        if (tweet_data['liked_by_me'] == true){
+            is_liked = true;
         }
 
         let tweet_div = `
@@ -122,8 +129,11 @@ function generate_tweet(tweet_data){
                         </svg>
                     </div>
                     <div class="tweet-footer-like col-3">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart ${is_liked ? 'hide' : ''} cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                        </svg>
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill ${is_liked ? 'show-heart' : '' } cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
                         <span class="likes-count">${tweet_data['likes'] > 0 ? tweet_data['likes'] : ''}</span>
                     </div>

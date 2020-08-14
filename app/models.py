@@ -49,4 +49,5 @@ class Tweet(db.Model):
     tweeted_by = db.Column(db.Integer, db.ForeignKey('user.id'))
     text = db.Column(db.String(280), nullable=False)
     tweeted_at = db.Column(db.String(), default=time.time)
+    liked_by_me = db.Column(db.Boolean(), default=False)
     likes = db.relationship('Like', backref='tweet', lazy='dynamic')

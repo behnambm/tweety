@@ -64,6 +64,7 @@
             const avatar_path = "{{ user.avatar_path }}";
             const display_name = "{{ user.display_name or user.username }}";
             const username = "{{ user.username }}";
+            const current_user = "{{ current_user.username }}";
             </script>
 
         {% endif %}
@@ -71,7 +72,7 @@
 </div>
 
 
-<div class="col-lg-3 d-none d-lg-block right-contect-body">
+<div class="col-lg-3 d-none d-lg-block right-content-body">
 todo -> user media, search input
 </div>
 

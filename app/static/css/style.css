@@ -297,3 +297,16 @@
 .tweets-list .tweet-footer{
     color: #777;
 }
+
+.bi-heart-fill{
+    display: none;
+}
+
+.show-heart{
+    display: inline-block;
+    color: red;
+}
+
+.hide{
+    display: none;
+}
