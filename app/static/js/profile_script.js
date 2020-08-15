@@ -24,4 +24,79 @@ $(document).ready(function () {
         });
     }
     update_timeline();
+
+
+    // like and unlike tweets
+    $(document).on('click', '.like-tweet',function (e) {
+        let svg_elem_id_array = $(this).attr('id').split('-');
+        let tweet_id = svg_elem_id_array.pop();
+        if (tweet_id == 'fill'){
+            tweet_id = svg_elem_id_array.pop();
+        }
+        if (tweet_id) {
+            $.ajax({
+                url: document.location.protocol + '//' + document.location.host + '/like_tweet/',
+                type: 'POST',
+                data: {
+                    tweet_id: tweet_id
+                },
+                statusCode: {
+                    200: function (response) {
+                        if ( response['action'] == 'like'){
+                            $('#heart-svg-' + tweet_id).hide();
+                            $('#heart-svg-' + tweet_id + '-fill').show();
+                            let like_count = (response['likes'] > 0) ? response['likes'] : '';
+                            $('#like-count-' + tweet_id).text(like_count);
+                        } else if ( response['action'] == 'unlike'){
+                            $('#heart-svg-' + tweet_id + '-fill').hide();
+                            $('#heart-svg-' + tweet_id).show();
+
+                        } else{
+                            // todo -> show some message to the user to get noticed that something is wrong
+                        }
+                        let like_count = (response['likes'] > 0) ? response['likes'] : '';
+                        $('#like-count-' + tweet_id).text(like_count);
+                    }
+                }
+            });
+        }
+    });
+
+    // set tweet id to confirm the deletion
+    $(document).on('click', '.delete-tweet', function () {
+        let tweet_id = $(this).attr('id').split('-').pop();
+        $('#tweet-id-to-delete').text(tweet_id);
+    });
+
+
+    // send ajax to delte the tweet
+    $('#delete-tweet-btn').click(function () {
+        let tweet_id = $('#tweet-id-to-delete').text();
+
+        if (tweet_id !== null){
+            $.ajax({
+                url: document.location.protocol + '//' + document.location.host + '/delete_tweet/',
+                type: 'POST',
+                data:{
+                    tweet_id: tweet_id
+                },
+                statusCode: {
+                    200: function (response) {
+                        $('.tweet[data-id='+ tweet_id +']').remove();
+                        $('#message-alert-custom').addClass('delete-alert');
+                        $('#confirm-delete-modal').modal('hide');
+                        $('#message-alert-text').text('You have deleted a tweet!');
+                        $('#message-alert-custom').fadeIn('slow');
+                        sleep(3500).then(()=>{
+                            $('#message-alert-custom').fadeOut('slow');
+                            $('#exampleFormControlTextarea1').val('');
+                            $('#message-alert-custom').removeClass('delete-alert');
+                        });
+
+                    }
+                }
+            })
+        }
+    });
+
 });

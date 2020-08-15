@@ -157,6 +157,30 @@ def like_tweet():
                     message='error while unliking'
                 ), 500
 
+
+@app.route('/delete_tweet/', methods=['POST'])
+@login_required
+def delete_tweet():
+    tweet_id = request.form.get('tweet_id')
+    if tweet_id:
+        tweet = Tweet.query.get(tweet_id)
+        try:
+            db.session.delete(tweet)
+            db.session.commit()
+            return jsonify(
+                tweet_id=tweet.id
+            ), 200
+        except Exception as e: # todo -> add loggin
+            db.session.rollback()
+            return jsonify(
+                message='error while deleting'
+            ), 500
+    else:
+        return jsonify(
+            message='Bad parameter'
+        ), 500
+
+
 @app.context_processor
 def post_tweet_form():  # to make post tweet form available in all templates
     return dict(post_tweet_form=PostTweetForm())

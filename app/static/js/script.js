@@ -1,9 +1,5 @@
 $(document).ready(()=>{
 
-    function sleep (time) {
-        return new Promise((resolve) => setTimeout(resolve, time));
-    }
-
     // auto focus the `text area` when user wants to write a tweet
     $('.modal').on('shown.bs.modal', function () {
       $('#exampleFormControlTextarea1').trigger('focus');
@@ -35,11 +31,13 @@ $(document).ready(()=>{
             },
             statusCode:{
                 201: function (response) {
+                    $('#message-alert-custom').addClass('tweet-post-alert');
                     $('#message-alert-text').text('you have posted a tweet');
                     $('#message-alert-custom').fadeIn('slow');
                     sleep(3500).then(()=>{
                         $('#message-alert-custom').fadeOut('slow');
                         $('#exampleFormControlTextarea1').val('');
+                        $('#message-alert-custom').removeClass('tweet-post-alert');
                     });
 
                     // (first condition)                    to update timeline after posting a tweet
@@ -57,62 +55,34 @@ $(document).ready(()=>{
             }
         });
     });
-
-    // like and unlike tweets
-    $(document).on('click', '.like-tweet',function (e) {
-        let svg_elem_id_array = $(this).attr('id').split('-');
-        let tweet_id = svg_elem_id_array.pop();
-        if (tweet_id == 'fill'){
-            tweet_id = svg_elem_id_array.pop();
-        }
-        if (tweet_id) {
-            $.ajax({
-                url: document.location.protocol + '//' + document.location.host + '/like_tweet/',
-                type: 'POST',
-                data: {
-                    tweet_id: tweet_id
-                },
-                statusCode: {
-                    200: function (response) {
-                        if ( response['action'] == 'like'){
-                            $('#heart-svg-' + tweet_id).hide();
-                            $('#heart-svg-' + tweet_id + '-fill').show();
-                            let like_count = (response['likes'] > 0) ? response['likes'] : '';
-                            $('#like-count-' + tweet_id).text(like_count);
-                        } else if ( response['action'] == 'unlike'){
-                            $('#heart-svg-' + tweet_id + '-fill').hide();
-                            $('#heart-svg-' + tweet_id).show();
-
-                        } else{
-                            // todo -> show some message to the user to get noticed that something is wrong
-                        }
-                        let like_count = (response['likes'] > 0) ? response['likes'] : '';
-                        $('#like-count-' + tweet_id).text(like_count);
-                    }
-                }
-            });
-        }
-    })
-
 });
+
+
+function sleep (time) {
+    return new Promise((resolve) => setTimeout(resolve, time));
+}
+
+
 
 // tweet generator function
 function generate_tweet(tweet_data){
-        let final_time = moment(tweet_data['tweeted_at'] * 1000).fromNow(true);
+        let tweet_time = moment(tweet_data['tweeted_at'] * 1000).fromNow(true);
         let time_to_show_to_user = '';
-        let sliced_time = final_time.split(' ')
-        if (final_time == 'a minute'){
+        let sliced_time = tweet_time.split(' ')
+        if (tweet_time == 'a few seconds'){
+            time_to_show_to_user = 'a few seconds ago';
+        } else if (tweet_time == 'a minute') {
             time_to_show_to_user = '1m';
         } else if (sliced_time[1] == 'minutes'){
             time_to_show_to_user = sliced_time[0] + 'm';
-        } else if (final_time == 'an hour'){
+        } else if (tweet_time == 'an hour'){
             time_to_show_to_user = '1h';
         } else if (sliced_time[1] == 'hours'){
             time_to_show_to_user = sliced_time[0] + 'h';
-        } else if (final_time == 'a day'){
+        } else if (tweet_time == 'a day'){
             time_to_show_to_user = '1d';
         } else if (sliced_time[1] == 'days' || sliced_time[1].indexOf('year') != -1 ){
-            if ((sliced_time[1] == 'days' && parseInt(sliced_time[0]) > 6) || final_time.indexOf('year') != -1){
+            if ((sliced_time[1] == 'days' && parseInt(sliced_time[0]) > 6) || tweet_time.indexOf('year') != -1){
                 let date_obj = new Date(tweet_data['tweeted_at'] * 1000);
                 let month = date_obj.toLocaleString('default', {month: 'long'});
                 let day = date_obj.getDate();
@@ -131,7 +101,7 @@ function generate_tweet(tweet_data){
         let tweet_id = tweet_data['id'];
 
         let tweet_div = `
-        <div class="tweet">
+        <div class="tweet" data-id="${tweet_id}">
             <div class="tweet-head">
                 <div class="tweet-user-link-area">
                 <div class="user-avatar fl">
@@ -146,6 +116,12 @@ function generate_tweet(tweet_data){
                 </div>
                 <div class="dot" style="float: left;">.</div>
                 <div class="tweet-datetime fl">${time_to_show_to_user}</div>
+                <div class="delete-tweet cp" id="delete-tweeet-${tweet_id}" data-toggle="modal" data-target="#confirm-delete-modal">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                      <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4L4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                </div>
             </div>
             <div class="clear"></div>
             <div class="tweet-body">

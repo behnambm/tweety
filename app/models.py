@@ -50,4 +50,5 @@ class Tweet(db.Model):
     text = db.Column(db.String(280), nullable=False)
     tweeted_at = db.Column(db.String(), default=time.time)
     liked_by_me = db.Column(db.Boolean(), default=False)
-    likes = db.relationship('Like', backref='tweet', lazy='dynamic')
+    likes = db.relationship('Like', backref='tweet', lazy='dynamic', cascade="all,delete")
+    #  ^^^^ `cascade`  is for deleting the likes from Like table when a tweet removed

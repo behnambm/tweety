@@ -156,7 +156,6 @@
     bottom: 25px;
     left: 50%;
     transform: translate(-50%, 0);
-    background-color: #34a0fe;
     color: #FFF;
     border-radius: 5px;
     font-size: 16px;
@@ -316,4 +315,59 @@
 
 .red-heart{
     color: red;
+}
+
+
+.delete-tweet{
+    float: right;
+    color: #777;
+    padding: 4px 9px;
+    border-radius: 17px;
+}
+
+.delete-tweet:hover{
+    color: red;
+    background-color: rgb(255 0 0 / 0.06);
+
+}
+
+.delete-confirm-modal-content{
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 20px;
+    height: fit-content;
+    width: fit-content;
+    max-width: 240px;
+}
+
+#tweet-id-to-delete{
+    display: none;
+}
+
+#delete-tweet-btn{
+    background-color: #e0245e;
+    outline: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 30px;
+    padding: 7px 20px;
+    margin-top: 15px;
+    color: white;
+}
+
+#cancel-delete-tweet{
+    outline: none;
+    border: none;
+    box-shadow: none;
+    border-radius: 30px;
+    padding: 7px 20px;
+    margin-top: 15px;
+}
+
+.delete-alert{
+    background-color: #f90852 !important;
+}
+
+.tweet-post-alert{
+    background-color: #34a0fe;
 }
