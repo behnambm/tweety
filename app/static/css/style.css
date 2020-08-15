@@ -302,11 +302,18 @@
     display: none;
 }
 
-.show-heart{
+.show{
     display: inline-block;
-    color: red;
 }
 
 .hide{
     display: none;
+}
+
+.like-tweet{
+    width: 25px;
+}
+
+.red-heart{
+    color: red;
 }

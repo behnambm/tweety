@@ -111,6 +111,56 @@ def get_user_tweet():
     return jsonify(tweets)
 
 
+@app.route('/like_tweet/', methods=['POST'])
+@login_required
+def like_tweet():
+    tweet_id = request.form.get('tweet_id')
+    try:
+        tweet_id = int(tweet_id)
+    except Exception as e: # todo -> add logging
+        return jsonify(
+            messsage='bad parameter'
+        ), 500
+    if tweet_id:
+        like_row = Like.query.filter_by(user_id=current_user.id, tweet_id=tweet_id).first()
+        if not like_row:
+            like = Like(tweet_id=tweet_id, user_id=current_user.id)
+            try:
+                db.session.add(like)
+                db.session.commit()
+                tweet = Tweet.query.filter_by(id=tweet_id).first()
+                likes = tweet.likes.count()
+                return jsonify(
+                    tweet_id=like.id,
+                    action='like',
+                    likes=likes
+                )
+            except Exception as e: # todo -> add logging
+                print('\n\n\n', e, '\n\n\n')
+                return jsonify(
+                    message='error while liking'
+                ), 500
+        else:
+            try:
+                db.session.delete(like_row)
+                db.session.commit()
+                tweet = Tweet.query.filter_by(id=tweet_id).first()
+                likes = tweet.likes.count()
+                return jsonify(
+                    tweet_id=like_row.id,
+                    action='unlike',
+                    likes=likes
+                )
+            except Exception as e: # todo -> add logging
+                db.session.rollback()
+                return jsonify(
+                    message='error while unliking'
+                ), 500
+
 @app.context_processor
 def post_tweet_form():  # to make post tweet form available in all templates
     return dict(post_tweet_form=PostTweetForm())
+
+
+
+

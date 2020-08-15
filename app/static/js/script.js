@@ -57,6 +57,43 @@ $(document).ready(()=>{
             }
         });
     });
+
+    // like and unlike tweets
+    $(document).on('click', '.like-tweet',function (e) {
+        let svg_elem_id_array = $(this).attr('id').split('-');
+        let tweet_id = svg_elem_id_array.pop();
+        if (tweet_id == 'fill'){
+            tweet_id = svg_elem_id_array.pop();
+        }
+        if (tweet_id) {
+            $.ajax({
+                url: document.location.protocol + '//' + document.location.host + '/like_tweet/',
+                type: 'POST',
+                data: {
+                    tweet_id: tweet_id
+                },
+                statusCode: {
+                    200: function (response) {
+                        if ( response['action'] == 'like'){
+                            $('#heart-svg-' + tweet_id).hide();
+                            $('#heart-svg-' + tweet_id + '-fill').show();
+                            let like_count = (response['likes'] > 0) ? response['likes'] : '';
+                            $('#like-count-' + tweet_id).text(like_count);
+                        } else if ( response['action'] == 'unlike'){
+                            $('#heart-svg-' + tweet_id + '-fill').hide();
+                            $('#heart-svg-' + tweet_id).show();
+
+                        } else{
+                            // todo -> show some message to the user to get noticed that something is wrong
+                        }
+                        let like_count = (response['likes'] > 0) ? response['likes'] : '';
+                        $('#like-count-' + tweet_id).text(like_count);
+                    }
+                }
+            });
+        }
+    })
+
 });
 
 // tweet generator function
@@ -90,6 +127,8 @@ function generate_tweet(tweet_data){
         if (tweet_data['liked_by_me'] == true){
             is_liked = true;
         }
+
+        let tweet_id = tweet_data['id'];
 
         let tweet_div = `
         <div class="tweet">
@@ -129,13 +168,13 @@ function generate_tweet(tweet_data){
                         </svg>
                     </div>
                     <div class="tweet-footer-like col-3">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart ${is_liked ? 'hide' : ''} cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" id="heart-svg-${tweet_id}" class="bi bi-heart ${is_liked ? 'hide' : ''} cp like-tweet " fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M8 2.748l-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
                         </svg>
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill ${is_liked ? 'show-heart' : '' } cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" id="heart-svg-${tweet_id}-fill" class="bi bi-heart-fill red-heart ${is_liked ? 'show' : '' } cp like-tweet " fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
-                        <span class="likes-count">${tweet_data['likes'] > 0 ? tweet_data['likes'] : ''}</span>
+                        <span class="likes-count" id="like-count-${tweet_id}">${tweet_data['likes'] > 0 ? tweet_data['likes'] : ''}</span>
                     </div>
                     <div class="tweet-footer-bookmark col-1">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookmark cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
