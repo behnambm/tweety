@@ -49,10 +49,13 @@ def profile(username):
     if username != current_user.username:
         user = User.query.filter_by(username=username).first()
         if user:
-            return render_template('profile.html',
-                                   profile_active=True,
-                                   user=user,
-                                   not_found=False)
+            is_this_user_followed_by_current_user = user in current_user.followings.all()
+            return render_template(
+                'profile.html',
+                profile_active=True,
+                user=user,
+                not_found=False,
+                is_this_user_followed_by_current_user=is_this_user_followed_by_current_user)
         else:
             return render_template('profile.html',
                                    profile_active=True,
@@ -181,10 +184,58 @@ def delete_tweet():
         ), 500
 
 
+@app.route('/follow/', methods=['POST'])
+@login_required
+def follow():
+    user_id_to_follow = request.form.get('username')
+    if not user_id_to_follow or user_id_to_follow == current_user.username:
+        return jsonify(
+            message='bad parameter'
+        ), 400
+
+    user = User.query.filter_by(username=user_id_to_follow).first()
+    if not user:
+        return jsonify(
+            message='User does not exist'
+        ), 404
+    else:
+        try:
+            current_user.follow(user)
+            db.session.commit()
+            return jsonify(
+                username=user.username
+            )
+        except Exception as e: # todo -> add logging
+            return jsonify(
+                message='error while following'
+            ), 500
+
+
+@app.route('/unfollow/', methods=['POST'])
+@login_required
+def unfollow():
+    username = request.form.get('username')
+    if username and username != current_user.username:
+        user = User.query.filter_by(username=username).first()
+        if user:
+            try:
+                current_user.unfollow(user)
+                db.session.commit()
+            except Exception as e: # todo -> add logging
+                db.session.rollback()
+                return jsonify(
+                    message='error while unfollowing'
+                ), 500
+        else:
+            return jsonify(
+                message='user not found'
+            ), 404
+    else:
+        return jsonify(
+            message='Bad parameter'
+        ), 400
+
+
 @app.context_processor
 def post_tweet_form():  # to make post tweet form available in all templates
     return dict(post_tweet_form=PostTweetForm())
-
-
-
-

@@ -92,4 +92,44 @@ $(document).ready(function () {
         }
     });
 
+
+    // follow users
+    $('#follow-user-btn').click(function () {
+        $.ajax({
+            url: document.location.protocol + '//' + document.location.host + '/follow/',
+            type: 'POST',
+            data: {
+                username: username
+            },
+            statusCode: {
+                200: function (response) {
+                    if (response['username'] == username) {
+                        $('#follow-user-btn').attr('id', 'unfollow-user-btn');
+                        $('#unfollow-user-btn').text('Unfollow');
+                    }
+                }
+            }
+        });
+    });
+
+
+    // unfollow users
+    $(document).on('click', '#unfollow-user-btn', function () {
+        $.ajax({
+            url: document.location.protocol + '//' + document.location.host + '/unfollow/',
+            type: 'POST',
+            data: {
+                username: username
+            },
+            statusCode: {
+                200: function (response) {
+                    if (response['username'] == username){
+                        $('#unfollow-user-btn').attr('id', 'follow-user-btn');
+                        $('#follow-user-btn').text('Follow');
+                    }
+                }
+            }
+        });
+    });
+
 });

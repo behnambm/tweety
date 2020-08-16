@@ -27,9 +27,19 @@
                     <div class="clear"></div>
                 </div>
                 <div class="user-bio-stuff">
-                    <div class="edit-user-info-btn">
+                    {% if user == current_user %}
+                    <div class="edit-user-info-btn profile-head-btn">
                         <button id="edit-user-info-btn">Edit profile</button>
                     </div>
+                    {% else %}
+                    <div class="follow-user-btn profile-head-btn">
+                    {% if is_this_user_followed_by_current_user %}
+                        <button id="unfollow-user-btn">Unfollow</button>
+                    {% else %}
+                        <button id="follow-user-btn">Follow</button>
+                    {% endif %}
+                    </div>
+                    {% endif %}
                     <div class="user-display-name"><b>{{ user.display_name or user.username }}</b></div>
                     <div class="user-username">@{{ user.username }}</div>
                     <div class="user-bio">{{ user.bio or '' }}</div>
@@ -42,8 +52,8 @@
                         Joined {{ user.confirmed_at.strftime('%B %Y') }}
                     </div>
                     <div class="follow-count">
-                        <div class="user-following">153 <span style="color: #888">Following</span></div>
-                        <div class="user-followers">120 <span style="color: #888">Followers</span></div>
+                        <div class="user-following">{{ user.followings.count() }} <span style="color: #888">Following</span></div>
+                        <div class="user-followers">{{ user.followers.count() }} <span style="color: #888">Followers</span></div>
                     </div>
                 </div>
             </div>

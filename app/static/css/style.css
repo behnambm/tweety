@@ -402,3 +402,45 @@
 .left-menu-active{
     background-color: rgb(0 123 255 / 0.1);
 }
+
+
+.profile-head-btn button{
+    outline: none;
+    border: none;
+    box-shadow: 0 0 1px 1px #19a0ff;
+    border-radius: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    float: right;
+}
+
+#edit-user-info-btn{
+    background-color: #fff;
+    color: #1e9af1;
+    padding: 5px 10px;
+}
+
+#follow-user-btn{
+    background-color: #2fa9ff;
+    padding: 5px 20px;
+    color: #ffffff;
+    transition: all .4s;
+}
+
+#follow-user-btn:hover{
+    background-color: #fff;
+    color: #2fa9ff;
+    box-shadow: 0 0 2px 1px #2fa9ff;
+}
+
+#unfollow-user-btn{
+    background-color: #f90852;
+    padding: 5px 20px;
+    color: #ffffff;
+    transition: all .4s;
+    box-shadow: none;
+}
+
+#unfollow-user-btn:hover{
+    box-shadow: 0 0 3px 1px #f90852;
+}

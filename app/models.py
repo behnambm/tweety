@@ -17,6 +17,13 @@ class Role(db.Model, RoleMixin):
     description = db.Column(db.String(255))
 
 
+user_follow = db.Table(
+    'user_follow',
+    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('following_id', db.Integer, db.ForeignKey('user.id'))
+)
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True)
@@ -36,6 +43,27 @@ class User(db.Model, UserMixin):
                             secondary=roles_users,
                             backref=db.backref('users', lazy='dynamic'))
     tweets = db.relationship('Tweet', backref='user', lazy='dynamic')
+    followings = db.relationship(
+        'User',
+        secondary=user_follow,
+        primaryjoin=(user_follow.c.follower_id == id),
+        secondaryjoin=(user_follow.c.following_id == id),
+        backref=db.backref('followers', lazy='dynamic'),
+        lazy='dynamic'
+    )
+
+    def i_follow(self, user):
+        return self.followings.filter(
+            user_follow.c.following_id == user.id
+        ).count() > 0
+
+    def follow(self, user):
+        if not self.i_follow(user):
+            self.followings.append(user)
+
+    def unfollow(self, user):
+        if self.i_follow(user):
+            self.followings.remove(user)
 
 
 class Like(db.Model):
