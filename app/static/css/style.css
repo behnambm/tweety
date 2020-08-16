@@ -27,9 +27,7 @@
     }
 }
 
-@media (max-width: 768px) {
 
-}
 
 @media only screen and (max-width: 576px){
     .tweet-footer{
@@ -370,4 +368,32 @@
 
 .tweet-post-alert{
     background-color: #34a0fe;
+}
+
+.profile-holder-head{
+    border-bottom: 1px solid #ccc;
+    padding: 5px 5px 5px 40px;
+    position: fixed;
+    z-index: 9;
+    background-color: #fff;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-height: 63px;
+}
+
+.profile-holder-head img{
+    width: 36px;
+    float: left;
+    border-radius: 20px;
+    margin: 0 15px 0 0;
+}
+
+@media (max-width: 768px) {
+    .m-top-47{
+        margin-top: 47px;
+    }
+    .m-top-63{
+        margin-top: 63px;
+    }
 }
