@@ -31,14 +31,8 @@ $(document).ready(()=>{
             },
             statusCode:{
                 201: function (response) {
-                    $('#message-alert-custom').addClass('tweet-post-alert');
-                    $('#message-alert-text').text('you have posted a tweet');
-                    $('#message-alert-custom').fadeIn('slow');
-                    sleep(3500).then(()=>{
-                        $('#message-alert-custom').fadeOut('slow');
-                        $('#exampleFormControlTextarea1').val('');
-                        $('#message-alert-custom').removeClass('tweet-post-alert');
-                    });
+                    $('#exampleFormControlTextarea1').val('');
+                    generate_alert('You have posted a tweet', 3500, 'tweet-post-alert');
 
                     // (first condition)                    to update timeline after posting a tweet
                     // (second condition explanation )      i use below code to avoid appending
@@ -62,6 +56,17 @@ function sleep (time) {
     return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+
+// generate alert
+function generate_alert(text, time, colorClass) {
+    $('#message-alert-custom').addClass(colorClass);
+    $('#message-alert-text').text();
+    $('#message-alert-custom').fadeIn('slow');
+    sleep(time).then(()=>{
+        $('#message-alert-custom').fadeOut('slow');
+        $('#message-alert-custom').removeClass(colorClass);
+    });
+}
 
 
 // tweet generator function

@@ -83,16 +83,9 @@ $(document).ready(function () {
                 statusCode: {
                     200: function (response) {
                         $('.tweet[data-id='+ tweet_id +']').remove();
-                        $('#message-alert-custom').addClass('delete-alert');
                         $('#confirm-delete-modal').modal('hide');
-                        $('#message-alert-text').text('You have deleted a tweet!');
-                        $('#message-alert-custom').fadeIn('slow');
-                        sleep(3500).then(()=>{
-                            $('#message-alert-custom').fadeOut('slow');
-                            $('#exampleFormControlTextarea1').val('');
-                            $('#message-alert-custom').removeClass('delete-alert');
-                        });
-
+                        $('#exampleFormControlTextarea1').val('');
+                        generate_alert('You have deleted a tweet!', 3500, 'delete-alert');
                     }
                 }
             })
