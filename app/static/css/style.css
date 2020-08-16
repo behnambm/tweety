@@ -397,3 +397,8 @@
         margin-top: 63px;
     }
 }
+
+
+.left-menu-active{
+    background-color: rgb(0 123 255 / 0.1);
+}

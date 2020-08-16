@@ -11,7 +11,7 @@ from app.functions import tweet_text_processor
 @app.route('/')
 @login_required
 def index():
-    return render_template('home.html')
+    return render_template('home.html', home_active=True)
 
 
 @app.route('/<username>/<int:tweet_id>')
