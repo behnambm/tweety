@@ -19,7 +19,7 @@ $(document).ready(()=>{
     // use ajax to post tweet
     $('#post-tweet-btn-modal').click( e =>{
         e.preventDefault();
-        let tweetText = $('#exampleFormControlTextarea1').val();
+        let tweetText = $('#exampleFormControlTextarea1').val().trim();
         let csrf_token = $('#csrf_token').val();
         $('.modal').modal('hide');
         $.ajax({

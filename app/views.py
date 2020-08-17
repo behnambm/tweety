@@ -26,7 +26,7 @@ def post_tweet():
     form = PostTweetForm()
     if form.validate():
         tw = Tweet(
-            text=form.text.data,
+            text=form.text.data.strip(),
             tweeted_at=time.time(),
             tweeted_by=current_user.id
         )
