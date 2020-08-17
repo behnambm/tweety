@@ -40,7 +40,9 @@ def post_tweet():
             return jsonify(tweet), 201
         except Exception as e:  # TODO add logging
             db.session.rollback()
-            return 'err', 500
+            return jsonify(
+                message='error while posting tweet'
+            ), 500
 
 
 @app.route('/<username>')
@@ -123,7 +125,7 @@ def like_tweet():
     except Exception as e: # todo -> add logging
         return jsonify(
             messsage='bad parameter'
-        ), 500
+        ), 400
     if tweet_id:
         like_row = Like.query.filter_by(user_id=current_user.id, tweet_id=tweet_id).first()
         if not like_row:
@@ -181,7 +183,7 @@ def delete_tweet():
     else:
         return jsonify(
             message='Bad parameter'
-        ), 500
+        ), 400
 
 
 @app.route('/follow/', methods=['POST'])
