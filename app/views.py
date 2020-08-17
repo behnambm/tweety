@@ -223,6 +223,9 @@ def unfollow():
             try:
                 current_user.unfollow(user)
                 db.session.commit()
+                return jsonify(
+                    username=user.username
+                )
             except Exception as e: # todo -> add logging
                 db.session.rollback()
                 return jsonify(
