@@ -94,7 +94,10 @@ todo -> user media, search input
     {% include 'bottom_side_menu.html' %}
 </div>
 {% include 'confirm_deletion.html' %}
+
+{% if request.view_args.username == current_user.username %}
 {% include 'edit_profile_modal.html' %}
+{% endif %}
 
 {% endblock %}
 
