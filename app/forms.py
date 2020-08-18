@@ -1,8 +1,9 @@
 from flask_wtf import FlaskForm
 from wtforms import TextAreaField, StringField
-from wtforms.validators import DataRequired, Length, ValidationError
+from wtforms.validators import DataRequired, Length, ValidationError, Email
 from flask_security.forms import RegisterForm
-from .models import User
+from app.models import User
+from flask_security import current_user
 
 
 class PostTweetForm(FlaskForm):
@@ -23,3 +24,23 @@ class ExtendedRegisterForm(RegisterForm):
         user = User.query.filter_by(username=field.data).first()
         if user:
             raise ValidationError('This username already exists.')
+
+
+class EditProfileForm(FlaskForm):
+    display_name = StringField()
+    username = StringField()
+    bio = TextAreaField()
+    email = StringField(validators=[Email()])
+
+    def validate_email(form, field):
+        if field.data != current_user.email:
+            user = User.query.filter_by(email=field.data).first()
+            if user:
+                raise ValidationError('Email Already Taken.')
+
+    def validate_username(form, field):
+        if field.data != current_user.username:
+            user = User.query.filter_by(username=field.data).first()
+            if user:
+                raise ValidationError('Username Already Taken')
+

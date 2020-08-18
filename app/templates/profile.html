@@ -29,7 +29,7 @@
                 <div class="user-bio-stuff">
                     {% if user == current_user %}
                     <div class="edit-user-info-btn profile-head-btn">
-                        <button id="edit-user-info-btn">Edit profile</button>
+                        <button id="edit-user-info-btn" data-toggle="modal" data-target="#edit-profile-modal">Edit profile</button>
                     </div>
                     {% else %}
                     <div class="follow-user-btn profile-head-btn">
@@ -94,7 +94,7 @@ todo -> user media, search input
     {% include 'bottom_side_menu.html' %}
 </div>
 {% include 'confirm_deletion.html' %}
-
+{% include 'edit_profile_modal.html' %}
 
 {% endblock %}
 

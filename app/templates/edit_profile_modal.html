@@ -1,0 +1,94 @@
+<!-- Modal -->
+<div class="modal fade" id="edit-profile-modal" tabindex="-1" role="dialog" aria-labelledby="Edit Profile" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="edit-profile-modal-label">Edit profile</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form action="{{ url_for('edit_profile') }}" method="POST">
+              {{ form.csrf_token }}
+              <div class="form-group">
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Name</span>
+                  </div>
+                    {{ form.display_name(class="form-control bio-input", placeholder="Name", value=current_user.display_name or '') }}
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="input-length-display_name" data-length="50">{{ current_user.display_name | length  or 50 }} / 50</span>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                  </div>
+                    {{ form.username(class="form-control bio-input", placeholder="Username", value=current_user.username) }}
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="input-length-username" data-length="32">{{ current_user.username | length or 32 }} / 32</span>
+                  </div>
+
+                  <div class="input-group-append"  id="valid-username" data-toggle="tooltip" title="Valid">
+                    <span class="input-group-text">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-patch-check-fll text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984a.5.5 0 0 0-.708-.708L7 8.793 5.854 7.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                        </svg>
+                    </span>
+                  </div>
+
+                  <div class="input-group-append" id="invalid-username" data-toggle="tooltip" title="Taken or Invalid">
+                    <span class="input-group-text" id="basic-addon1">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
+                        </svg>
+                    </span>
+                  </div>
+
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon2">Email</span>
+                  </div>
+                {{ form.email(class="form-control bio-input", placeholder="example@address.com", value=current_user.email) }}
+
+                  <div class="input-group-append"  id="valid-email" data-toggle="tooltip" title="Valid">
+                    <span class="input-group-text">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-patch-check-fll text-success" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984a.5.5 0 0 0-.708-.708L7 8.793 5.854 7.646a.5.5 0 1 0-.708.708l1.5 1.5a.5.5 0 0 0 .708 0l3-3z"/>
+                        </svg>
+                    </span>
+                  </div>
+
+                  <div class="input-group-append" id="invalid-email"  data-toggle="tooltip" title="Taken or Invalid">
+                    <span class="input-group-text" id="basic-addon1">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x-circle-fill text-danger" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd" d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.146-3.146a.5.5 0 0 0-.708-.708L8 7.293 4.854 4.146a.5.5 0 1 0-.708.708L7.293 8l-3.147 3.146a.5.5 0 0 0 .708.708L8 8.707l3.146 3.147a.5.5 0 0 0 .708-.708L8.707 8l3.147-3.146z"/>
+                        </svg>
+                    </span>
+                  </div>
+                </div>
+
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Bio</span>
+                  </div>
+                {{ form.bio(class="form-control bio-input", rows=4, placeholder="Bio", value=current_user.bio or '') }}
+                  <div class="input-group-append">
+                    <span class="input-group-text" id="input-length-bio" data-length="160">{{ current_user.bio | length }} / 160</span>
+                  </div>
+                </div>
+
+              </div>
+            <button type="submit" class="btn btn-primary" style="float: right">Save changes</button>
+            <button type="button" class="btn btn-secondary" style="float: right; margin-right: 10px;" data-dismiss="modal">Close</button>
+          </form>
+      </div>
+
+    </div>
+  </div>
+</div>

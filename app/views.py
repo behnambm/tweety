@@ -1,11 +1,12 @@
 from . import app
-from flask import render_template, request, jsonify
-from .forms import PostTweetForm
+from flask import render_template, request, jsonify, redirect, url_for
+from .forms import PostTweetForm, EditProfileForm
 from .models import db, Tweet, User, Like
 from flask_security import login_required, current_user
 import time
 from app.schema import TweetSchema
 from app.functions import tweet_text_processor
+from email_validator import validate_email
 
 
 @app.route('/')
@@ -63,11 +64,14 @@ def profile(username):
                                    profile_active=True,
                                    not_found=True,
                                    username=username)
-
-    return render_template('profile.html',
-                           profile_active=True,
-                           user=current_user,
-                           not_found=False)
+    else:
+        user_to_populate = User.query.get(current_user.id)
+        form = EditProfileForm(obj=user_to_populate)
+        return render_template('profile.html',
+                               profile_active=True,
+                               user=current_user,
+                               not_found=False,
+                               form=form)
 
 
 @app.route('/profile/get_user_tweet/', methods=['POST'])
@@ -235,6 +239,79 @@ def unfollow():
             return jsonify(
                 message='user not found'
             ), 404
+    else:
+        return jsonify(
+            message='Bad parameter'
+        ), 400
+
+
+@app.route('/edit_profile/', methods=['POST'])
+@login_required
+def edit_profile():
+    form = EditProfileForm()
+    if form.validate():
+        print('\n\n\n\n\n\nXXX')
+        try:
+            user = User.query.get(current_user.id)
+            user.display_name = form.display_name.data
+            user.username = form.username.data
+            user.email = form.email.data
+            user.bio = form.bio.data
+            db.session.commit()
+        except Exception as e: # todo -> add logging
+            db.session.rollback()
+            pass
+    return redirect(url_for('profile', username=current_user.username))
+
+
+@app.route('/verify_email/', methods=['POST'])
+@login_required
+def verify_email():
+    email = request.form.get('email')
+    if email == current_user.email:
+        return jsonify(
+            message='valid'
+        )
+    if email:
+        try:
+            validate_email(email, check_deliverability=False)
+            user = User.query.filter_by(email=email).first()
+            if user:
+                return jsonify(
+                    message='Already Taken'
+                ), 409
+            else:
+                return jsonify(
+                    message='valid'
+                )
+        except Exception as e: # todo -> add logging
+            return jsonify(
+                message='Bad parameter.'
+            ), 400
+    else:
+        return jsonify(
+            message='Bad parameter'
+        ), 400
+
+
+@app.route('/verify_username/', methods=['POST'])
+@login_required
+def verify_username():
+    username = request.form.get('username')
+    if username == current_user.username:
+        return jsonify(
+            message='valid'
+        )
+    if username:
+        user = User.query.filter_by(username=username).first()
+        if user:
+            return jsonify(
+                message='Already Taken'
+            ), 409
+        else:
+            return jsonify(
+                message='valid'
+            )
     else:
         return jsonify(
             message='Bad parameter'
