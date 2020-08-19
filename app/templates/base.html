@@ -29,6 +29,10 @@
     <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/moment.min.js') }}"></script>
+    <script>
+        const current_user_id = "{{ current_user.id }}";
+        const current_user_username = "{{ current_user.username }}";
+    </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     {% endblock %}
   </body>

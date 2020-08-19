@@ -173,6 +173,13 @@ def delete_tweet():
     tweet_id = request.form.get('tweet_id')
     if tweet_id:
         tweet = Tweet.query.get(tweet_id)
+
+        # to prevent unauthorized user delete other user's tweets
+        if tweet.user == current_user:
+            return jsonify(
+                message='Unauthorized operation'
+            ), 401
+
         try:
             db.session.delete(tweet)
             db.session.commit()
