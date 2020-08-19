@@ -65,6 +65,25 @@ class User(db.Model, UserMixin):
         if self.i_follow(user):
             self.followings.remove(user)
 
+    def following_tweets(self, tweet_count, offset_count):
+        my_followings_tweets = (
+            Tweet.query.
+            join(user_follow, user_follow.c.following_id == Tweet.tweeted_by).
+            filter(user_follow.c.follower_id == self.id).
+            order_by(Tweet.tweeted_at.desc()).
+            offset(offset_count).
+            limit(tweet_count)
+        )
+        my_own_tweets = (
+            db.session.query(Tweet).
+            filter(Tweet.tweeted_by == self.id).
+            order_by(Tweet.tweeted_at.desc()).
+            offset(offset_count).
+            limit(tweet_count)
+        )
+        all_tweets = my_followings_tweets.union(my_own_tweets).order_by(Tweet.tweeted_at.desc())
+        return all_tweets
+
 
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)

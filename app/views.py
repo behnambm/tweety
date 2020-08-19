@@ -4,7 +4,7 @@ from .forms import PostTweetForm, EditProfileForm
 from .models import db, Tweet, User, Like
 from flask_security import login_required, current_user
 import time
-from app.schema import TweetSchema
+from app.schema import TweetSchema, MainTweetSchema
 from app.functions import tweet_text_processor
 from email_validator import validate_email
 
@@ -316,6 +316,38 @@ def verify_username():
         return jsonify(
             message='Bad parameter'
         ), 400
+
+
+@app.route('/get_main_tweet/', methods=['POST'])
+@login_required
+def get_main_tweet():
+    tweet_count = request.form.get('tweet_count', 30)
+    offset_count = request.form.get('offset_count', 0)
+
+    liked_tweets = (
+        db.session.query(Tweet).
+        join(Like, Like.tweet_id == Tweet.id).
+        filter(Like.user_id == current_user.id)
+    )
+
+    tweets_from_db = current_user.following_tweets(tweet_count, offset_count).all()
+
+    # mark tweets that are liked by current_user
+    for tweet in tweets_from_db:
+        if tweet in liked_tweets:
+            tweet.liked_by_me = True
+
+    # create schema and serialize all tweets coming from DB
+    tweet_schema = MainTweetSchema(many=True)
+    all_tweets = tweet_schema.dump(tweets_from_db)
+
+    for tweet in all_tweets:
+        tweet['likes'] = len(tweet['likes'])
+
+        # some processes on tweet's text like -> replacing <br> with \n in tweet text
+        tweet['text'] = tweet_text_processor(tweet)
+
+    return jsonify(all_tweets)
 
 
 @app.context_processor

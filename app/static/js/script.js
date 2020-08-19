@@ -70,7 +70,7 @@ function generate_alert(text, time, colorClass) {
 
 
 // tweet generator function
-function generate_tweet(tweet_data){
+function generate_tweet(tweet_data, type){
         let tweet_time = moment(tweet_data['tweeted_at'] * 1000).fromNow(true);
         let time_to_show_to_user = '';
         let sliced_time = tweet_time.split(' ')
@@ -110,13 +110,13 @@ function generate_tweet(tweet_data){
             <div class="tweet-head">
                 <div class="tweet-user-link-area">
                 <div class="user-avatar fl">
-                    <img src="${avatar_path}" alt="this user">
+                    <img src="${type == 'main' ? tweet_data['user']['avatar_path'] : avatar_path}" alt="this user">
                 </div>
                 <div class="user-name fl">
-                    ${display_name}
+                    ${(type == 'main') ? (tweet_data['user']['display_name']) ? tweet_data['user']['display_name'] : tweet_data['user']['username'] : display_name}
                 </div>
                 <div class="user-username fl">
-                    @${username}
+                    @${type == 'main' ? tweet_data['user']['username'] : username}
                 </div>
                 </div>
                 <div class="dot" style="float: left;">.</div>

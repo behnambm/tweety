@@ -19,7 +19,11 @@
                   </div>
                     {{ form.display_name(class="form-control bio-input", placeholder="Name", value=current_user.display_name or '') }}
                   <div class="input-group-append">
-                    <span class="input-group-text" id="input-length-display_name" data-length="50">{{ current_user.display_name | length  or 50 }} / 50</span>
+                    <span class="input-group-text" id="input-length-display_name" data-length="50">
+                        {% if current_user.display_name %}
+                        {{ current_user.display_name | length  or 50 }} / 50
+                        {% endif %}
+                    </span>
                   </div>
                 </div>
 
@@ -79,7 +83,11 @@
                   </div>
                 {{ form.bio(class="form-control bio-input", rows=4, placeholder="Bio", value=current_user.bio or '') }}
                   <div class="input-group-append">
-                    <span class="input-group-text" id="input-length-bio" data-length="160">{{ current_user.bio | length }} / 160</span>
+                    <span class="input-group-text" id="input-length-bio" data-length="160">
+                        {% if current_user.bio %}
+                        {{ current_user.bio | length }} / 160
+                        {% endif %}
+                    </span>
                   </div>
                 </div>
 
