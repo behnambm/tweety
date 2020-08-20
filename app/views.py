@@ -126,7 +126,7 @@ def like_tweet():
     tweet_id = request.form.get('tweet_id')
     try:
         tweet_id = int(tweet_id)
-    except Exception as e: # todo -> add logging
+    except Exception as e:  # todo -> add logging
         return jsonify(
             messsage='bad parameter'
         ), 400
@@ -144,8 +144,8 @@ def like_tweet():
                     action='like',
                     likes=likes
                 )
-            except Exception as e: # todo -> add logging
-                print('\n\n\n', e, '\n\n\n')
+            except Exception as e:  # todo -> add logging
+                db.session.rollback()
                 return jsonify(
                     message='error while liking'
                 ), 500
@@ -160,7 +160,7 @@ def like_tweet():
                     action='unlike',
                     likes=likes
                 )
-            except Exception as e: # todo -> add logging
+            except Exception as e:  # todo -> add logging
                 db.session.rollback()
                 return jsonify(
                     message='error while unliking'
@@ -186,7 +186,7 @@ def delete_tweet():
             return jsonify(
                 tweet_id=tweet.id
             ), 200
-        except Exception as e: # todo -> add loggin
+        except Exception as e:  # todo -> add loggin
             db.session.rollback()
             return jsonify(
                 message='error while deleting'
@@ -218,7 +218,7 @@ def follow():
             return jsonify(
                 username=user.username
             )
-        except Exception as e: # todo -> add logging
+        except Exception as e:  # todo -> add logging
             return jsonify(
                 message='error while following'
             ), 500
@@ -257,7 +257,6 @@ def unfollow():
 def edit_profile():
     form = EditProfileForm()
     if form.validate():
-        print('\n\n\n\n\n\nXXX')
         try:
             user = User.query.get(current_user.id)
             user.display_name = form.display_name.data
@@ -265,7 +264,7 @@ def edit_profile():
             user.email = form.email.data
             user.bio = form.bio.data
             db.session.commit()
-        except Exception as e: # todo -> add logging
+        except Exception as e:  # todo -> add logging
             db.session.rollback()
             pass
     return redirect(url_for('profile', username=current_user.username))
@@ -291,7 +290,7 @@ def verify_email():
                 return jsonify(
                     message='valid'
                 )
-        except Exception as e: # todo -> add logging
+        except Exception as e:  # todo -> add logging
             return jsonify(
                 message='Bad parameter.'
             ), 400
