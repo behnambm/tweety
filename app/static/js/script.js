@@ -89,6 +89,37 @@ $(document).ready(()=>{
     });
 
 
+    // set tweet id to confirm the deletion
+    $(document).on('click', '.delete-tweet', function () {
+        let tweet_id = $(this).attr('id').split('-').pop();
+        $('#tweet-id-to-delete').text(tweet_id);
+    });
+
+
+    // send ajax to delete the tweet
+    $('#delete-tweet-btn').click(function () {
+        let tweet_id = $('#tweet-id-to-delete').text();
+
+        if (tweet_id !== null){
+            $.ajax({
+                url: document.location.protocol + '//' + document.location.host + '/delete_tweet/',
+                type: 'POST',
+                data:{
+                    tweet_id: tweet_id
+                },
+                statusCode: {
+                    200: function (response) {
+                        $('.tweet[data-id='+ tweet_id +']').remove();
+                        $('#confirm-delete-modal').modal('hide');
+                        $('#exampleFormControlTextarea1').val('');
+                        generate_alert('You have deleted a tweet!', 3500, 'delete-alert');
+                    }
+                }
+            })
+        }
+    });
+
+
 
 });
 

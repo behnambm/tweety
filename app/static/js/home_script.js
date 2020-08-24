@@ -13,7 +13,6 @@ function updateMainTimeline(tweet_count, offset_count) {
                 if (response.length > 0) {
                     response.forEach(function (tweet) {
                         $('.time-line').append(generate_tweet(tweet, 'main'));
-                        console.log(response)
                     });
 
                 } else {
