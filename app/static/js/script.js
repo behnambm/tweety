@@ -49,6 +49,47 @@ $(document).ready(()=>{
             }
         });
     });
+
+
+
+    // like and unlike tweets
+    $(document).on('click', '.like-tweet',function (e) {
+        let svg_elem_id_array = $(this).attr('id').split('-');
+        let tweet_id = svg_elem_id_array.pop();
+        if (tweet_id == 'fill'){
+            tweet_id = svg_elem_id_array.pop();
+        }
+        if (tweet_id) {
+            $.ajax({
+                url: document.location.protocol + '//' + document.location.host + '/like_tweet/',
+                type: 'POST',
+                data: {
+                    tweet_id: tweet_id
+                },
+                statusCode: {
+                    200: function (response) {
+                        if ( response['action'] == 'like'){
+                            $('#heart-svg-' + tweet_id).hide();
+                            $('#heart-svg-' + tweet_id + '-fill').show();
+                            let like_count = (response['likes'] > 0) ? response['likes'] : '';
+                            $('#like-count-' + tweet_id).text(like_count);
+                        } else if ( response['action'] == 'unlike'){
+                            $('#heart-svg-' + tweet_id + '-fill').hide();
+                            $('#heart-svg-' + tweet_id).show();
+
+                        } else{
+                            // todo -> show some message to the user to get noticed that something is wrong
+                        }
+                        let like_count = (response['likes'] > 0) ? response['likes'] : '';
+                        $('#like-count-' + tweet_id).text(like_count);
+                    }
+                }
+            });
+        }
+    });
+
+
+
 });
 
 

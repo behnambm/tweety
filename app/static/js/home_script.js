@@ -17,7 +17,7 @@ function updateMainTimeline(tweet_count, offset_count) {
                     });
 
                 } else {
-                    // $('.tweets-list').append('<h4 class="no-tweets-yet tc"><br>No tweets yet</h4>')
+                    $('.time-line').append('<h4 class="no-tweets-yet tc"><br>No tweets yet</h4>')
                 }
             }
         }
