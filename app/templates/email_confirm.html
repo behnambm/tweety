@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %}Email confirm | Tweety{% endblock %}
+
+{% block content %}
+
+<div class="col-12 tc" style="color: #aaa">
+    <h1>Successful.</h1>
+    <h4>Your email has been changed.</h4>
+    <a href="{{ url_for('index') }}"><button class="go-home-btn">Home</button></a>
+</div>
+
+{% endblock %}

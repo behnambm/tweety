@@ -1,12 +1,14 @@
 from . import app
-from flask import render_template, request, jsonify, redirect, url_for
+from flask import render_template, request, jsonify, redirect, url_for, flash
 from .forms import PostTweetForm, EditProfileForm
 from .models import db, Tweet, User, Like
 from flask_security import login_required, current_user
 import time
 from app.schema import TweetSchema, MainTweetSchema
-from app.functions import tweet_text_processor
+from app.functions import tweet_text_processor, send_mail, get_link_hash, create_link
 from email_validator import validate_email
+from flask_mail import Message
+import hashlib
 
 
 @app.route('/')
@@ -261,12 +263,33 @@ def edit_profile():
             user = User.query.get(current_user.id)
             user.display_name = form.display_name.data
             user.username = form.username.data
-            user.email = form.email.data
             user.bio = form.bio.data
             db.session.commit()
+            if user.email != form.email.data:
+                # create confirmation link
+                link_hash = get_link_hash(user)
+                link_to_change_email = create_link(link_hash, form.email.data)
+                # create Message to send the mail change confirmation.
+                msg = Message(
+                    subject='Email change confirmation',
+                    recipients=[form.email.data],
+                    html=render_template(
+                        'email/mail_confirmation.html',
+                        sender_name='Tweety',
+                        sender_address=app.config['MAIL_DEFAULT_SENDER'],
+                        sender_country='Iran',
+                        sender_city='Urmia',
+                        link=link_to_change_email
+                    ),
+                    sender=('Tweety', app.config['MAIL_DEFAULT_SENDER'])
+                )
+                send_mail(msg)
+                flash('Please check your email to confirm changes.', 'primary')
+
         except Exception as e:  # todo -> add logging
             db.session.rollback()
-            pass
+            print(e)
+            flash('Something went wrong! Please try again.', 'danger')
     return redirect(url_for('profile', username=current_user.username))
 
 
@@ -354,6 +377,33 @@ def get_main_tweet():
         tweet['text'] = tweet_text_processor(tweet)
 
     return jsonify(all_tweets)
+
+
+@app.route('/confirm/<hash_>/')
+def confirm(hash_=None):
+    if hash_:
+        email = request.args.get('email')
+        if current_user.is_authenticated:
+
+            if not email:
+                return render_template('something_is_not_right.html')
+
+            if current_user.email == email:
+                return redirect(url_for('index'))
+
+            hash_from_db = get_link_hash(current_user)
+            if hash_ == hash_from_db:
+                user = User.query.get(current_user.id)
+                user.email = email
+                try:
+                    db.session.commit()
+                    return render_template('email_confirm.html')
+                except Exception as e:  # todo -> add logging
+                    pass
+
+            return render_template('something_is_not_right.html')
+        return redirect(url_for('security.login'))
+    return redirect(url_for('index'))
 
 
 @app.context_processor
