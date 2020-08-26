@@ -380,29 +380,27 @@ def get_main_tweet():
 
 
 @app.route('/confirm/<hash_>/')
+@login_required
 def confirm(hash_=None):
     if hash_:
         email = request.args.get('email')
-        if current_user.is_authenticated:
-
-            if not email:
-                return render_template('something_is_not_right.html')
-
-            if current_user.email == email:
-                return redirect(url_for('index'))
-
-            hash_from_db = get_link_hash(current_user)
-            if hash_ == hash_from_db:
-                user = User.query.get(current_user.id)
-                user.email = email
-                try:
-                    db.session.commit()
-                    return render_template('email_confirm.html')
-                except Exception as e:  # todo -> add logging
-                    pass
-
+        if not email:
             return render_template('something_is_not_right.html')
-        return redirect(url_for('security.login'))
+
+        if current_user.email == email:
+            return redirect(url_for('index'))
+
+        hash_from_db = get_link_hash(current_user)
+        if hash_ == hash_from_db:
+            user = User.query.get(current_user.id)
+            user.email = email
+            try:
+                db.session.commit()
+                return render_template('email_confirm.html')
+            except Exception as e:  # todo -> add logging
+                pass
+
+        return render_template('something_is_not_right.html')
     return redirect(url_for('index'))
 
 
