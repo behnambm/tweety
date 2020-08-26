@@ -24,6 +24,13 @@ user_follow = db.Table(
 )
 
 
+class Bookmark(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tweet_id = db.Column(db.Integer, db.ForeignKey('tweet.id'))
+    created_at = db.Column(db.String, default=time.time)
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True)
@@ -51,6 +58,7 @@ class User(db.Model, UserMixin):
         backref=db.backref('followers', lazy='dynamic'),
         lazy='dynamic'
     )
+    bookmarks = db.relationship('Bookmark', backref='user', lazy='dynamic')
 
     def i_follow(self, user):
         return self.followings.filter(

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Bookmarks | Tweety{% endblock %}
+
+{% block content %}
+{% include 'left_side_menu.html' %}
+<div class="col-xs-12 col-sm-12 col-md-8 offset-md-3 col-lg-6 contect-body m-top-47">
+    <div class="time-line" data-spy="scroll">
+    </div>
+</div>
+
+<div class="col-lg-3 d-none d-lg-block right-contect-body">
+Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore consectetur, officiis nisi dolorum repellendus saepe esse aperiam error? Aperiam quas harum debitis facilis consectetur quos consequuntur necessitatibus exercitationem vitae possimus.
+</div>
+
+
+{% include 'post_tweet.html' %}
+
+{% include 'message_alert.html' %}
+<div class="container-fluid-bottom-menu">
+    {% include 'bottom_side_menu.html' %}
+</div>
+
+{% endblock %}
+
+{% block script %}
+{{ super() }}
+<script src="{{ url_for('static', filename='js/bookmark_script.js') }}"></script>
+{% endblock %}

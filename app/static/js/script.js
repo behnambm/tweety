@@ -120,7 +120,25 @@ $(document).ready(()=>{
     });
 
 
-
+    // add tweets to bookmark
+    $(document).on('click', '.tweet-footer-bookmark', function() {
+        let tweet_id = $(this).parents('.tweet').data('id');
+        $.ajax({
+            url: document.location.protocol + '//' + document.location.host + '/add_to_bookmarks/',
+            type: 'POST',
+            data: {
+                tweet_id: tweet_id
+            },
+            statusCode: {
+                200: function (response) {
+                    generate_alert('Tweet added to your bookmarks', 4000, 'tweet-post-alert')
+                },
+                409: function (response) {
+                    generate_alert('Tweet is already in your bookmarks', 4000, 'tweet-post-alert')
+                }
+            }
+        })
+    })
 });
 
 
@@ -132,7 +150,7 @@ function sleep (time) {
 // generate alert
 function generate_alert(text, time, colorClass) {
     $('#message-alert-custom').addClass(colorClass);
-    $('#message-alert-text').text();
+    $('#message-alert-text').text(text);
     $('#message-alert-custom').fadeIn('slow');
     sleep(time).then(()=>{
         $('#message-alert-custom').fadeOut('slow');

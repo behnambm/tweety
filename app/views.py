@@ -1,7 +1,7 @@
 from . import app
 from flask import render_template, request, jsonify, redirect, url_for, flash
 from .forms import PostTweetForm, EditProfileForm
-from .models import db, Tweet, User, Like
+from .models import db, Tweet, User, Like, Bookmark
 from flask_security import login_required, current_user
 import time
 from app.schema import TweetSchema, MainTweetSchema
@@ -402,6 +402,75 @@ def confirm(hash_=None):
 
         return render_template('something_is_not_right.html')
     return redirect(url_for('index'))
+
+
+@app.route('/bookmarks/')
+@login_required
+def bookmarks():
+    return render_template(
+        'bookmarks.html',
+        bookmark_active=True
+    )
+
+
+@app.route('/get_bookmarks/', methods=['POST'])
+@login_required
+def get_bookmarks():
+    try:
+        offset_count = request.form.get('offset_count', 0)
+        tweet_count = request.form.get('tweet_count', 20)
+        tweets = (
+            db.session.query(Tweet).
+            join(Bookmark, Bookmark.tweet_id == Tweet.id).
+            filter(User.id == Bookmark.user_id).
+            order_by(Bookmark.created_at.desc()).
+            offset(offset_count).
+            limit(tweet_count)
+        ).all()
+
+        schema = MainTweetSchema(many=True)
+        all_tweets = schema.dump(tweets)
+        prefix = request.base_url.split('/')[0:3]
+
+        for tweet in all_tweets:
+            tweet['user']['avatar_path'] = '/'.join(prefix) + '/' + tweet['user']['avatar_path']
+
+        return jsonify(all_tweets)
+    except Exception as e:  # todo -> add logging
+        print('\n\n\n', e)
+        pass
+        return jsonify(
+            message='something went wrong'
+        ), 500
+
+
+@app.route('/add_to_bookmarks/', methods=['POST'])
+@login_required
+def add_to_bookmarks():
+    tweet_id = request.form.get('tweet_id')
+    if tweet_id:
+        tweet = Tweet.query.get(tweet_id)
+        if tweet:
+            tweet_in_bookmark = Bookmark.query.filter_by(tweet_id=tweet_id).first()
+            if tweet_in_bookmark:
+                return jsonify(
+                    message='already in bookmark'
+                ), 409
+            try:
+                tweet_to_bookmark = Bookmark(user_id=current_user.id, tweet_id=tweet_id)
+                db.session.add(tweet_to_bookmark)
+                db.session.commit()
+                return jsonify(
+                    message='add to bookmarks'
+                ), 200
+            except Exception as e:
+                pass
+                return jsonify(
+                    message='error in server side'
+                ), 500
+    return jsonify(
+        message='bad parameter'
+    ), 400
 
 
 @app.context_processor
