@@ -6,14 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
+    {% block style %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% endblock %}
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
 
     {% if current_user.is_authenticated %}
-{#    {% include 'profile-head.html' %}#}
+{#    {% include 'profile_head.html' %}#}
     {% endif %}
     <div class="container" style="max-width: 1100px; margin: 20px auto;">
         <div class="row">

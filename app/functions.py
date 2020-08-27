@@ -23,5 +23,5 @@ def create_link(hash, email):
     prefix = '/'.join(prefix)
     args = '?email=' + email
     full_link = prefix + link + args
-    print('\n\n\n', full_link)
+    print('\n\n\n', full_link)  # todo -> remove print
     return True

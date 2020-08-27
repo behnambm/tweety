@@ -396,9 +396,10 @@ def confirm(hash_=None):
             user.email = email
             try:
                 db.session.commit()
-                return render_template('email_confirm.html')
+                flash('You have confirmed your email.', 'success')
+                return redirect(url_for('profile', username=current_user.username))
             except Exception as e:  # todo -> add logging
-                pass
+                print('\t\t', e)
 
         return render_template('something_is_not_right.html')
     return redirect(url_for('index'))
@@ -434,6 +435,9 @@ def get_bookmarks():
 
         for tweet in all_tweets:
             tweet['user']['avatar_path'] = '/'.join(prefix) + '/' + tweet['user']['avatar_path']
+            tweet['likes'] = len(tweet['likes'])
+            # some processes on tweet's text like -> replacing <br> with \n in tweet text
+            tweet['text'] = tweet_text_processor(tweet)
 
         return jsonify(all_tweets)
     except Exception as e:  # todo -> add logging
@@ -468,6 +472,31 @@ def add_to_bookmarks():
                 return jsonify(
                     message='error in server side'
                 ), 500
+    return jsonify(
+        message='bad parameter'
+    ), 400
+
+
+@app.route('/delete_bookmark/', methods=['POST'])
+@login_required
+def delete_bookamrk():
+    tweet_id = request.form.get('tweet_id')
+    if tweet_id:
+        try:
+            tweet = Bookmark.query.\
+                filter_by(user_id=current_user.id).\
+                filter_by(tweet_id=tweet_id).first()
+            db.session.delete(tweet)
+            db.session.commit()
+            return jsonify(
+                message='tweet deleted'
+            ), 200
+        except Exception as e:
+            print('\n\n\n\tXXX', e)
+            db.session.rollback()
+            return jsonify(
+                messsage='something went wrong'
+            ), 500
     return jsonify(
         message='bad parameter'
     ), 400

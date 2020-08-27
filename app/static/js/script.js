@@ -122,22 +122,24 @@ $(document).ready(()=>{
 
     // add tweets to bookmark
     $(document).on('click', '.tweet-footer-bookmark', function() {
-        let tweet_id = $(this).parents('.tweet').data('id');
-        $.ajax({
-            url: document.location.protocol + '//' + document.location.host + '/add_to_bookmarks/',
-            type: 'POST',
-            data: {
-                tweet_id: tweet_id
-            },
-            statusCode: {
-                200: function (response) {
-                    generate_alert('Tweet added to your bookmarks', 4000, 'tweet-post-alert')
+        if (!$(this).children('svg').hasClass('delete-bookmarked-tweet')) {
+            let tweet_id = $(this).parents('.tweet').data('id');
+            $.ajax({
+                url: document.location.protocol + '//' + document.location.host + '/add_to_bookmarks/',
+                type: 'POST',
+                data: {
+                    tweet_id: tweet_id
                 },
-                409: function (response) {
-                    generate_alert('Tweet is already in your bookmarks', 4000, 'tweet-post-alert')
+                statusCode: {
+                    200: function (response) {
+                        generate_alert('Tweet added to your bookmarks', 4000, 'tweet-post-alert')
+                    },
+                    409: function (response) {
+                        generate_alert('Tweet is already in your bookmarks', 4000, 'tweet-post-alert')
+                    }
                 }
-            }
-        })
+            });
+        }
     })
 });
 
@@ -200,18 +202,18 @@ function generate_tweet(tweet_data, type){
             <div class="tweet-head">
                 <div class="tweet-user-link-area">
                 <div class="user-avatar fl">
-                    <img src="${type == 'main' ? tweet_data['user']['avatar_path'] : avatar_path}" alt="this user">
+                    <img src="${type == 'main' || type == 'bookmark' ? tweet_data['user']['avatar_path'] : avatar_path}" alt="this user">
                 </div>
                 <div class="user-name fl">
-                    ${(type == 'main') ? (tweet_data['user']['display_name']) ? tweet_data['user']['display_name'] : tweet_data['user']['username'] : display_name}
+                    ${(type == 'main' || type == 'bookmark' ) ? (tweet_data['user']['display_name']) ? tweet_data['user']['display_name'] : tweet_data['user']['username'] : display_name}
                 </div>
                 <div class="user-username fl">
-                    @${type == 'main' ? tweet_data['user']['username'] : username}
+                    @${type == 'main' || type == 'bookmark'  ? tweet_data['user']['username'] : username}
                 </div>
                 </div>
                 <div class="dot" style="float: left;">.</div>
                 <div class="tweet-datetime fl">${time_to_show_to_user}</div>
-                ${ type == 'main'  ? 
+                ${ type == 'main' || type == 'bookmark'  ? 
                     tweet_data['user']['username'] == current_user_username ?
                 `<div class="delete-tweet cp" id="delete-tweeet-${tweet_id}" data-toggle="modal" data-target="#confirm-delete-modal">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -258,8 +260,8 @@ function generate_tweet(tweet_data, type){
                         </svg>
                         <span class="likes-count" id="like-count-${tweet_id}">${tweet_data['likes'] > 0 ? tweet_data['likes'] : ''}</span>
                     </div>
-                    <div class="tweet-footer-bookmark col-1">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookmark cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <div class="tweet-footer-bookmark col-1" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookmark cp ${(type == 'bookmark' ) ? 'delete-bookmarked-tweet' : '' }" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
                         </svg>
                     </div>
