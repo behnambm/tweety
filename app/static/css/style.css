@@ -481,6 +481,12 @@
     box-shadow: 0 0 2px 3px rgb(30 154 241 / 0.4);
 }
 
-
-
+.user-name a{
+    text-decoration: none;
+    color: #444;
+}
+.user-username a{
+    text-decoration: none;
+    color: #888;
+}
 

@@ -454,6 +454,11 @@ def add_to_bookmarks():
     tweet_id = request.form.get('tweet_id')
     if tweet_id:
         tweet = Tweet.query.get(tweet_id)
+        # prevent adding tweets that belongs to current user
+        if tweet.tweeted_by == current_user.id:
+            return jsonify(
+                message='you cant bookmark your tweets'
+            ), 400
         if tweet:
             tweet_in_bookmark = Bookmark.query.filter_by(tweet_id=tweet_id).first()
             if tweet_in_bookmark:
