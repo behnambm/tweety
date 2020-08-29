@@ -8,7 +8,6 @@ from app.schema import TweetSchema, MainTweetSchema
 from app.functions import tweet_text_processor, send_mail, get_link_hash, create_link
 from email_validator import validate_email
 from flask_mail import Message
-import hashlib
 
 
 @app.route('/')
@@ -418,6 +417,12 @@ def bookmarks():
 @login_required
 def get_bookmarks():
     try:
+        liked_tweets = (
+            db.session.query(Tweet).
+            join(Like, Like.tweet_id == Tweet.id).
+            filter(Like.user_id == current_user.id)
+        ).all()
+
         offset_count = request.form.get('offset_count', 0)
         tweet_count = request.form.get('tweet_count', 20)
         tweets = (
@@ -428,6 +433,11 @@ def get_bookmarks():
             offset(offset_count).
             limit(tweet_count)
         ).all()
+
+        # mark liked tweet by current user
+        for tweet in tweets:
+            if tweet in liked_tweets:
+                tweet.liked_by_me = True
 
         schema = MainTweetSchema(many=True)
         all_tweets = schema.dump(tweets)
@@ -484,7 +494,7 @@ def add_to_bookmarks():
 
 @app.route('/delete_bookmark/', methods=['POST'])
 @login_required
-def delete_bookamrk():
+def delete_bookmark():
     tweet_id = request.form.get('tweet_id')
     if tweet_id:
         try:
