@@ -450,6 +450,14 @@ def get_bookmarks():
         prefix = request.base_url.split('/')[0:3]
 
         for tweet in all_tweets:
+            # generate appropriate path for avatar if it's a retweet
+            if tweet['is_retweet']:
+                tweet['source_tweet']['user']['avatar_path'] = (
+                                       '/'.join(prefix) +
+                                       '/' +
+                                       tweet['source_tweet']['user']['avatar_path']
+                )
+
             tweet['user']['avatar_path'] = '/'.join(prefix) + '/' + tweet['user']['avatar_path']
             tweet['likes'] = len(tweet['likes'])
             # some processes on tweet's text like -> replacing <br> with \n in tweet text
