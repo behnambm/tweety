@@ -85,11 +85,6 @@ def get_user_tweet():
     # get tweets from this profile that current_user liked
     liked_tweets = (
         db.session.query(Tweet).
-        filter(Tweet.tweeted_by == u_id).
-        order_by(Tweet.tweeted_at.desc()).
-        offset(offset_count).
-        limit(tweet_count).
-        from_self().
         join(Like, Like.tweet_id == Tweet.id).
         filter(Like.user_id == current_user.id)
     )
@@ -107,7 +102,13 @@ def get_user_tweet():
         if tw in tweets_from_db.all():
             tw.liked_by_me = True
 
-    all_tweets = tweets_from_db.union_all(liked_tweets)
+    all_tweets = tweets_from_db
+
+    # to mark all the retweets taht liked by current user
+    for tweet in all_tweets:
+        if tweet.is_retweet:
+            if tweet.source_tweet in liked_tweets.all():
+                tweet.liked_by_me = True
 
     tweet_schema = TweetSchema(many=True)
     tweets = tweet_schema.dump(all_tweets)
@@ -116,7 +117,7 @@ def get_user_tweet():
     for tweet in tweets:
         tweet['likes'] = len(tweet['likes'])
 
-        # some processes on tweet's text like -> replacing <br> with \n in tweet text
+        # some processes on tweet's text. like -> replacing <br> with \n in tweet text
         tweet['text'] = tweet_text_processor(tweet)
     return jsonify(tweets)
 
@@ -362,6 +363,11 @@ def get_main_tweet():
 
     # mark tweets that are liked by current_user
     for tweet in tweets_from_db:
+        # mark retweets that liked by current user
+        if tweet.is_retweet:
+            if tweet.source_tweet in liked_tweets:
+                tweet.liked_by_me = True
+
         if tweet in liked_tweets:
             tweet.liked_by_me = True
 

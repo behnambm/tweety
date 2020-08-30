@@ -2,8 +2,11 @@ from app import mail, app
 import hashlib
 from flask import url_for, request
 
+
 def tweet_text_processor(tweet):
-    return tweet['text'].replace('\n', '<br>')
+    # to prevent errors while checking retweets data
+    if tweet['text']:
+        return tweet['text'].replace('\n', '<br>')
 
 
 def send_mail(msg):

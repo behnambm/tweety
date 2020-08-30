@@ -102,8 +102,16 @@ class Like(db.Model):
 class Tweet(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     tweeted_by = db.Column(db.Integer, db.ForeignKey('user.id'))
-    text = db.Column(db.String(280), nullable=False)
+    text = db.Column(db.String(280))
     tweeted_at = db.Column(db.String(), default=time.time)
     liked_by_me = db.Column(db.Boolean(), default=False)
     likes = db.relationship('Like', backref='tweet', lazy='dynamic', cascade="all,delete")
     #  ^^^^ `cascade`  is for deleting the likes from Like table when a tweet removed
+    is_retweet = db.Column(db.Boolean, default=False)
+    source_tweet_id = db.Column(db.Integer, db.ForeignKey('tweet.id'))
+    source_tweet = db.relationship(
+        'Tweet',
+        remote_side=[id],
+        backref=db.backref('retweet')
+    )
+
