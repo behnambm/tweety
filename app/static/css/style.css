@@ -490,3 +490,31 @@
     color: #888;
 }
 
+.icon-holder-div{
+    display: inline-block;
+    border-radius: 20px;
+    padding: 0;
+}
+
+.love-icon:hover{
+    box-shadow: 0 0 0 4px #fff0f0;
+    background-color: #fff0f0;
+    color: red;
+}
+
+hr{
+    margin-top: 5px;
+}
+
+.retweet-icon{
+    padding: 0 5px;
+}
+.retweet-icon:hover{
+    box-shadow: 0 0 0 4px #dcffec;
+    background-color: #dcffec;
+    color: #1d9453;
+}
+
+
+
+
