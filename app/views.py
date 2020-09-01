@@ -117,6 +117,15 @@ def get_user_tweet():
     for tweet in tweets:
         tweet['likes'] = len(tweet['likes'])
 
+        # calculate lenght of retweet
+        if tweet['is_retweet']:
+            '''in case of being a retweet'''
+            tweet['source_tweet']['retweet'] = len(tweet['source_tweet']['retweet'])
+        else :
+            '''in case of being a regular tweet'''
+            tweet['retweet'] = len(tweet['retweet'])
+
+
         # some processes on tweet's text. like -> replacing <br> with \n in tweet text
         tweet['text'] = tweet_text_processor(tweet)
     return jsonify(tweets)
@@ -377,6 +386,14 @@ def get_main_tweet():
 
     for tweet in all_tweets:
         tweet['likes'] = len(tweet['likes'])
+
+        # calculate lenght of retweet
+        if tweet['is_retweet']:
+            '''in case of being a retweet'''
+            tweet['source_tweet']['retweet'] = len(tweet['source_tweet']['retweet'])
+        else:
+            '''in case of being a regular tweet'''
+            tweet['retweet'] = len(tweet['retweet'])
 
         # some processes on tweet's text like -> replacing <br> with \n in tweet text
         tweet['text'] = tweet_text_processor(tweet)
