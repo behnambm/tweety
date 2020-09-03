@@ -10,7 +10,7 @@ $(document).ready(function () {
             type: 'POST',
             data: {
                 'u_id': u_id,
-                'tweet_count': tweet_count ? tweet_count : 100,
+                'tweet_count': tweet_count ? tweet_count : 20,
                 'offset_count': offset_count ? offset_count : 0
             },
             statusCode: {
