@@ -160,25 +160,87 @@ function generate_alert(text, time, colorClass) {
     });
 }
 
+// generate valid url
+function generateUrl(path){
+    let url = null;
+    if (path.startsWith('/')){
+        url = document.location.protocol + '//' + document.location.host + path;
+    } else {
+        url = document.location.protocol + '//' + document.location.host + '/' + path;
+    }
+    return url
+}
+
+
+// get the display name of user from given `tweet_data`
+function get_dispaly_name(tw_data) {
+    let tmp_display_name = tw_data['user']['display_name']
+    return (tmp_display_name) ? tmp_display_name : tw_data['user']['username']
+}
 
 // tweet generator function
 function generate_tweet(tweet_data, type){
+    let tweet_id = null;
+    let tweet_text = null;
+    let tweeter_display_name = null;
+    let tweeter_username = null;
+    let tweeter_avatar_path = null;
+    let tweeter_profile_link = null;
+    // ----------------------------
+    let retweet_count = null;
+    let retweet_head = null;
+    let retweeter_profile_link = null;
+    let retweeter_name_to_show = null;
 
-    let display_name_to_show = null;
-    let username_to_show = null;
-    let link_to_profile = null;
-    if (type == 'main' || type == 'bookmark' ){
-        display_name_to_show = tweet_data['user']['display_name'];
-        if (display_name_to_show == null){
-            display_name_to_show = tweet_data['user']['username'];
+    // define initial data
+    tweet_id = tweet_data['id'];
+    retweet_count = tweet_data['retweet'] || '';  // this prevent showing zero in retweet-count section
+
+    tweeter_display_name = get_dispaly_name(tweet_data);
+
+
+    tweeter_username = tweet_data['user']['username'];
+    tweet_text = tweet_data['text'];
+    tweeter_avatar_path = generateUrl(tweet_data['user']['avatar_path']);
+    tweeter_profile_link = generateUrl(tweet_data['user']['username']);
+
+
+    if (tweet_data['is_retweet']) {
+        if (current_user_username && current_user_username == tweeter_username){
+            //
+            // this must be at first because we will change `tweeter_username` in the following codes
+            //
+            retweeter_name_to_show = 'You';
         }
-        username_to_show = tweet_data['user']['username'];
-    } else {
-        display_name_to_show = display_name;
-        username_to_show = username;
-    }
-    link_to_profile = document.location.protocol + '//' + document.location.host + '/' + username_to_show;
 
+        tweeter_profile_link = generateUrl(tweet_data['source_tweet']['user']['username']);
+        tweet_text = tweet_data['source_tweet']['text'];
+        tweeter_avatar_path = generateUrl(tweet_data['source_tweet']['user']['avatar_path'])
+
+        tweeter_username = tweet_data['source_tweet']['user']['username']
+
+        let tmp_display_name = tweet_data['source_tweet']['user']['display_name']
+        tweeter_display_name = (tmp_display_name) ? tmp_display_name : tweet_data['source_tweet']['user']['username']
+
+        retweet_count = tweet_data['source_tweet']['retweet']
+
+        retweeter_name_to_show = tweet_data['user']['display_name'] ? tweet_data['user']['display_name'] : tweet_data['user']['username']
+        retweeter_profile_link = generateUrl(tweet_data['user']['username']);
+        retweet_head = `
+        <a href="${retweeter_profile_link}" class="retweet-head cp">
+            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-repeat" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zm-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"/>
+              <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"/>
+            </svg>
+            <small>${retweeter_name_to_show} Retweeted</small>
+        </a>
+        `;
+        console.log(retweeter_name_to_show)
+        console.log(retweeter_profile_link)
+    }
+
+
+    // START HANDLE TWEET TIME
     let tweet_time = moment(tweet_data['tweeted_at'] * 1000).fromNow(true);
     let time_to_show_to_user = '';
     let sliced_time = tweet_time.split(' ')
@@ -206,30 +268,31 @@ function generate_tweet(tweet_data, type){
     } else {
         console.log('something is wrong if you can see this' + sliced_time);
     }
+    // END HANDLE TWEET TIME
+
+
     let is_liked = false;
     if (tweet_data['liked_by_me'] == true){
         is_liked = true;
     }
 
-    let tweet_id = tweet_data['id'];
 
     let tweet_div = `
     <div class="tweet" data-id="${tweet_id}">
         <div class="tweet-head">
+            ${retweet_head ? retweet_head : ''}
             <div class="tweet-user-link-area">
             <div class="user-avatar fl">
-                <img src="${type == 'main' || type == 'bookmark' ? tweet_data['user']['avatar_path'] : avatar_path}" alt="this user">
+                <img src="${tweeter_avatar_path}" alt="this user">
             </div>
-            <div class="user-name fl">
-            <a href="${link_to_profile}">
-                ${display_name_to_show}
+            <a href="${tweeter_profile_link}" class="profile-name-link">
+                <div class="user-name fl">
+                        ${tweeter_display_name}
+                </div>
+                <div class="user-username fl">
+                    @${tweeter_username}
+                </div>
             </a>
-            </div>
-            <div class="user-username fl">
-            <a href="${link_to_profile}">
-                @${username_to_show}
-            </a>
-            </div>
             </div>
             <div class="dot" style="float: left;">.</div>
             <div class="tweet-datetime fl">${time_to_show_to_user}</div>
@@ -254,7 +317,7 @@ function generate_tweet(tweet_data, type){
         <div class="clear"></div>
         <div class="tweet-body">
             <div class="tweet-text">
-                ${tweet_data['text']}
+                ${tweet_text}
             </div>
             <div class="tweet-media"></div>
         </div>
@@ -272,6 +335,7 @@ function generate_tweet(tweet_data, type){
                             <path fill-rule="evenodd" d="M8 3a4.995 4.995 0 0 0-4.192 2.273.5.5 0 0 1-.837-.546A6 6 0 0 1 14 8a.5.5 0 0 1-1.001 0 5 5 0 0 0-5-5zM2.5 7.5A.5.5 0 0 1 3 8a5 5 0 0 0 9.192 2.727.5.5 0 1 1 .837.546A6 6 0 0 1 2 8a.5.5 0 0 1 .501-.5z"/>
                         </svg>
                     </div>
+                    <span class="retweet-count" id="retweet-count-${tweet_id}">${retweet_count}</span>
                 </div>
                 <div class="tweet-footer-like col-3">
                     <div class="icon-holder-div love-icon">

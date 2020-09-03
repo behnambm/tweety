@@ -481,10 +481,6 @@
     box-shadow: 0 0 2px 3px rgb(30 154 241 / 0.4);
 }
 
-.user-name a{
-    text-decoration: none;
-    color: #444;
-}
 .user-username a{
     text-decoration: none;
     color: #888;
@@ -515,6 +511,27 @@ hr{
     color: #1d9453;
 }
 
+.retweet-head{
+    color: #888 !important;
+    padding-left: 35px;
+}
 
+.retweet-head:hover{
+    text-decoration: underline !important;
+}
 
+.profile-name-link{
+    color: #888 !important;
+}
+
+.profile-name-link .user-name{
+    color: #444;
+}
+.profile-name-link:hover .user-name{
+    text-decoration: underline !important;
+}
+
+.tweet .retweet-count {
+    font-size: 13px;
+}
 
