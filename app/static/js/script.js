@@ -44,7 +44,7 @@ $(document).ready(()=>{
                     }
                 },
                 500: function () {
-                    console.log('there is an error.');
+                    generate_alert('Posting tweet failed. Please try again later', 3500, 'delete-alert');
                 }
             }
         });
