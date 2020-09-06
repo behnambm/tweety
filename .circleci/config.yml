@@ -34,9 +34,9 @@ jbos:
           command: |
             . venv/bin/activate
             python -m unittest tests/tweet_test.py
-          - store_artifacts:
-              path: test-reports
-              destination: test-reports
-          - store_test_results:
-              path: test-reports
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
+      - store_test_results:
+          path: test-reports
 
