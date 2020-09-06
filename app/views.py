@@ -475,6 +475,14 @@ def get_bookmarks():
                                        tweet['source_tweet']['user']['avatar_path']
                 )
 
+            # calculate lenght of retweet
+            if tweet['is_retweet']:
+                '''in case of being a retweet'''
+                tweet['source_tweet']['retweet'] = len(tweet['source_tweet']['retweet'])
+            else:
+                '''in case of being a regular tweet'''
+                tweet['retweet'] = len(tweet['retweet'])
+                
             tweet['user']['avatar_path'] = '/'.join(prefix) + '/' + tweet['user']['avatar_path']
             tweet['likes'] = len(tweet['likes'])
             # some processes on tweet's text like -> replacing <br> with \n in tweet text
