@@ -1,6 +1,6 @@
 version: 2
 
-jbos:
+jobs:
   build:
     docker:
       - image: circleci/python:3.8-browsers
