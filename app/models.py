@@ -6,32 +6,35 @@ from datetime import datetime
 
 db = SQLAlchemy()
 
-roles_users = db.Table('roles_users',
-                       db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-                       db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+roles_users = db.Table('tweety__roles_users',
+                       db.Column('user_id', db.Integer(), db.ForeignKey('tweety__user.id')),
+                       db.Column('role_id', db.Integer(), db.ForeignKey('tweety__role.id')))
 
 
 class Role(db.Model, RoleMixin):
+    __tablename__ = 'tweety__role'
     id = db.Column(db.Integer(), primary_key=True)
     name = db.Column(db.String(80), unique=True)
     description = db.Column(db.String(255))
 
 
 user_follow = db.Table(
-    'user_follow',
-    db.Column('follower_id', db.Integer, db.ForeignKey('user.id')),
-    db.Column('following_id', db.Integer, db.ForeignKey('user.id'))
+    'tweety__user_follow',
+    db.Column('follower_id', db.Integer, db.ForeignKey('tweety__user.id')),
+    db.Column('following_id', db.Integer, db.ForeignKey('tweety__user.id'))
 )
 
 
 class Bookmark(db.Model):
+    __tablename__ = 'tweety__bookmark'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    tweet_id = db.Column(db.Integer, db.ForeignKey('tweet.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('tweety__user.id'))
+    tweet_id = db.Column(db.Integer, db.ForeignKey('tweety__tweet.id'))
     created_at = db.Column(db.String, default=time.time)
 
 
 class User(db.Model, UserMixin):
+    __tablename__ = 'tweety__user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(32), unique=True)
     display_name = db.Column(db.String(50))
@@ -94,21 +97,23 @@ class User(db.Model, UserMixin):
 
 
 class Like(db.Model):
+    __tablename__ = 'tweety__like'
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    tweet_id = db.Column(db.Integer, db.ForeignKey('tweet.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('tweety__user.id'))
+    tweet_id = db.Column(db.Integer, db.ForeignKey('tweety__tweet.id'))
 
 
 class Tweet(db.Model):
+    __tablename__ = 'tweety__tweet'
     id = db.Column(db.Integer, primary_key=True)
-    tweeted_by = db.Column(db.Integer, db.ForeignKey('user.id'))
+    tweeted_by = db.Column(db.Integer, db.ForeignKey('tweety__user.id'))
     text = db.Column(db.String(280))
     tweeted_at = db.Column(db.String(), default=time.time)
     liked_by_me = db.Column(db.Boolean(), default=False)
     likes = db.relationship('Like', backref='tweet', lazy='dynamic', cascade="all,delete")
     #  ^^^^ `cascade`  is for deleting the likes from Like table when a tweet removed
     is_retweet = db.Column(db.Boolean, default=False)
-    source_tweet_id = db.Column(db.Integer, db.ForeignKey('tweet.id'))
+    source_tweet_id = db.Column(db.Integer, db.ForeignKey('tweety__tweet.id'))
     source_tweet = db.relationship(
         'Tweet',
         remote_side=[id],
