@@ -1,6 +1,6 @@
 version: 2
 
-jobs:
+jobs: 
   build:
     docker:
       - image: circleci/python:3.8-browsers
@@ -21,7 +21,6 @@ jobs:
             java -jar selenium-server-standalone-3.5.3.jar -log test-reports/selenium.log
           background: true
 
-      - checkout
       - run:
           name: Install python deps in a venv
           command: |
@@ -36,7 +35,7 @@ jobs:
             python -m unittest tests/tweet_test.py
       - store_artifacts:
           path: test-reports
-          destination: test-reports
+          destination: tr1
       - store_test_results:
           path: test-reports
 
