@@ -23,6 +23,10 @@ Security(app, datastore, register_form=ExtendedRegisterForm)
 
 migrate = Migrate(app, db)
 
+app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
+app.config['SQLALCHEMY_DATABSE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
+app.config['SECURITY_PASSWORD_SALT'] = os.environ['SECURITY_PASSWORD_SALT']
+
 if os.environ['FLASK_ENV'] != 'testing':
     app.config['MAIL_SERVER'] = os.environ['MAIL_SERVER']
     app.config['MAIL_PORT'] = os.environ['MAIL_PORT']
