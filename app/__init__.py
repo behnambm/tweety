@@ -23,13 +23,14 @@ Security(app, datastore, register_form=ExtendedRegisterForm)
 
 migrate = Migrate(app, db)
 
-app.config['MAIL_SERVER'] = os.environ['MAIL_SERVER']
-app.config['MAIL_PORT'] = os.environ['MAIL_PORT']
-app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
-app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
-app.config['MAIL_USE_TLS'] = os.environ['MAIL_USE_TLS']
-app.config['SALT_FOR_EMAIL_LINKS'] = os.environ['SALT_FOR_EMAIL_LINKS']
-app.config['MAIL_DEFAULT_SENDER'] = os.environ['MAIL_DEFAULT_SENDER']
+if os.environ['FLASK_ENV'] != 'testing':
+    app.config['MAIL_SERVER'] = os.environ['MAIL_SERVER']
+    app.config['MAIL_PORT'] = os.environ['MAIL_PORT']
+    app.config['MAIL_USERNAME'] = os.environ['MAIL_USERNAME']
+    app.config['MAIL_PASSWORD'] = os.environ['MAIL_PASSWORD']
+    app.config['MAIL_USE_TLS'] = os.environ['MAIL_USE_TLS']
+    app.config['SALT_FOR_EMAIL_LINKS'] = os.environ['SALT_FOR_EMAIL_LINKS']
+    app.config['MAIL_DEFAULT_SENDER'] = os.environ['MAIL_DEFAULT_SENDER']
 
 mail = Mail(app)
 

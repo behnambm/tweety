@@ -8,6 +8,7 @@ from app.schema import TweetSchema, MainTweetSchema
 from app.functions import tweet_text_processor, send_mail, get_link_hash, create_link
 from email_validator import validate_email
 from flask_mail import Message
+import os
 
 
 @app.route('/')
@@ -274,7 +275,7 @@ def edit_profile():
             user.username = form.username.data
             user.bio = form.bio.data
             db.session.commit()
-            if user.email != form.email.data:
+            if user.email != form.email.data and os.environ['FLASK_ENV'] != 'testing':
                 # create confirmation link
                 link_hash = get_link_hash(user)
                 link_to_change_email = create_link(link_hash, form.email.data)

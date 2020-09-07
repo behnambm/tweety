@@ -6,7 +6,7 @@ jobs:
       - image: circleci/python:3.8-browsers
         environment:
           FLASK_APP: app
-          FLASK_ENV: development
+          FLASK_ENV: testing
 
     steps:
       - checkout
