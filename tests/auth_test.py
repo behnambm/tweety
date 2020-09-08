@@ -1,6 +1,5 @@
 from tests.base import BaseTestCase
 import unittest
-import requests
 from app.models import User
 
 
@@ -57,14 +56,6 @@ class AuthTestCate(BaseTestCase):
                                         'submit': 'Login'
                                     })
         self.assertTemplateUsed('security/login_user.html')
-
-    def test_reset_password(self):
-        """ Ensure that the mail sent successful """
-        response = self.client.post('/reset',
-                                    data={
-                                        'email': 'test@gmail.com'
-                                    })
-        self.assertIn('Instructions to reset your password have been sent to test@gmail.com.', str(response.data))
 
 
 if __name__ == '__main__':
