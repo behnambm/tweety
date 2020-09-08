@@ -20,8 +20,6 @@ class BaseTestCase(TestCase):
         )
         app.config['TESTING'] = True
         app.config['WTF_CSRF_ENABLED'] = False
-        app.config['SECRET_KEY'] = 'some strong phrase'
-        app.config['SECURITY_PASSWORD_SALT'] = 'a st0ng salt for more security'
 
         with app.app_context():
             db.create_all()
