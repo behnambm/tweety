@@ -18,13 +18,15 @@ class AuthTestCate(BaseTestCase):
 
     def test_login_is_OK(self):
         """ Ensure that login route is up and has no error """
-        response = requests.get('http://localhost:5000/login')
-        self.assertEqual(response.status_code, 200)
+        with self.app.test_client() as c:
+            response = c.get('/login')
+            self.assertEqual(response.status_code, 200)
 
     def test_register_is_OK(self):
         """ Ensure that register route is up and has no error"""
-        response = requests.get('http://localhost:5000/register')
-        self.assert200(response)
+        with self.app.test_client() as c:
+            response = c.get('/register')
+            self.assert200(response)
 
     def test_insert_user_in_db(self):
         """ Ensure that the models are working fine"""
