@@ -7,7 +7,7 @@ jobs:
         environment:
           FLASK_APP: app
           FLASK_ENV: testing
-          SQLALCHEMY_DATABASE_URI: sqlite:///:memory:
+          SQLALCHEMY_DATABASE_URI: "sqlite:///:memory:"
           SECURITY_PASSWORD_SALT: someStr0ngStringForMoreSecurity
           SECRET_KEY: A_secrety_Key
 
