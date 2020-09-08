@@ -12,13 +12,14 @@ from flask_marshmallow import Marshmallow
 app = Flask(__name__)
 app.config.from_pyfile('config.cfg')
 
-debug_toolbar = DebugToolbarExtension(app)
 
 # database configs
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ['SQLALCHEMY_DATABASE_URI']
 # security configs
 app.config['SECRET_KEY'] = os.environ['SECRET_KEY']
 app.config['SECURITY_PASSWORD_SALT'] = os.environ['SECURITY_PASSWORD_SALT']
+
+debug_toolbar = DebugToolbarExtension(app)
 
 db.init_app(app)
 
