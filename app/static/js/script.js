@@ -191,6 +191,7 @@ function generate_tweet(tweet_data, type){
     let retweet_head = null;
     let retweeter_profile_link = null;
     let retweeter_name_to_show = null;
+    let likes_count = null;
 
     // define initial data
     tweet_id = tweet_data['id'];
@@ -204,6 +205,7 @@ function generate_tweet(tweet_data, type){
     tweeter_avatar_path = tweet_data['user']['avatar_path'];
     tweeter_profile_link = generateUrl(tweet_data['user']['username']);
 
+    likes_count = tweet_data['likes'];
 
     if (tweet_data['is_retweet']) {
         if (current_user_username && current_user_username == tweeter_username){
@@ -212,7 +214,7 @@ function generate_tweet(tweet_data, type){
             //
             retweeter_name_to_show = 'You';
         }
-
+        likes_count = tweet_data['source_tweet']['likes'];
         tweeter_profile_link = generateUrl(tweet_data['source_tweet']['user']['username']);
         tweet_text = tweet_data['source_tweet']['text'];
         tweeter_avatar_path = tweet_data['source_tweet']['user']['avatar_path'];
@@ -235,10 +237,10 @@ function generate_tweet(tweet_data, type){
             <small>${retweeter_name_to_show} Retweeted</small>
         </a>
         `;
-        console.log(retweeter_name_to_show)
-        console.log(retweeter_profile_link)
     }
 
+    // to ensure likes_count is an empty string instead of zero
+    likes_count = likes_count != 0 ? likes_count : '';
 
     // START HANDLE TWEET TIME
     let tweet_time = moment(tweet_data['tweeted_at'] * 1000).fromNow(true);
@@ -346,7 +348,7 @@ function generate_tweet(tweet_data, type){
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                         </svg>
                     </div>
-                    <span class="likes-count" id="like-count-${tweet_id}">${tweet_data['likes'] > 0 ? tweet_data['likes'] : ''}</span>
+                    <span class="likes-count" id="like-count-${tweet_id}">${likes_count}</span>
                 </div>
                 ${ (type == 'main') ? 
                 (tweet_data['user']['username'] == current_user_username) ? '' :
