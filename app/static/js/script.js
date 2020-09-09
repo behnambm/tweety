@@ -201,7 +201,7 @@ function generate_tweet(tweet_data, type){
 
     tweeter_username = tweet_data['user']['username'];
     tweet_text = tweet_data['text'];
-    tweeter_avatar_path = generateUrl(tweet_data['user']['avatar_path']);
+    tweeter_avatar_path = tweet_data['user']['avatar_path'];
     tweeter_profile_link = generateUrl(tweet_data['user']['username']);
 
 
@@ -215,7 +215,7 @@ function generate_tweet(tweet_data, type){
 
         tweeter_profile_link = generateUrl(tweet_data['source_tweet']['user']['username']);
         tweet_text = tweet_data['source_tweet']['text'];
-        tweeter_avatar_path = generateUrl(tweet_data['source_tweet']['user']['avatar_path'])
+        tweeter_avatar_path = tweet_data['source_tweet']['user']['avatar_path'];
 
         tweeter_username = tweet_data['source_tweet']['user']['username']
 
