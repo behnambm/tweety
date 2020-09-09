@@ -122,6 +122,7 @@ def get_user_tweet():
         if tweet['is_retweet']:
             '''in case of being a retweet'''
             tweet['source_tweet']['retweet'] = len(tweet['source_tweet']['retweet'])
+            tweet['source_tweet']['likes'] = len(tweet['source_tweet']['likes'])
         else :
             '''in case of being a regular tweet'''
             tweet['retweet'] = len(tweet['retweet'])
@@ -392,6 +393,7 @@ def get_main_tweet():
         if tweet['is_retweet']:
             '''in case of being a retweet'''
             tweet['source_tweet']['retweet'] = len(tweet['source_tweet']['retweet'])
+            tweet['source_tweet']['likes'] = len(tweet['source_tweet']['likes'])
         else:
             '''in case of being a regular tweet'''
             tweet['retweet'] = len(tweet['retweet'])
@@ -480,6 +482,7 @@ def get_bookmarks():
             if tweet['is_retweet']:
                 '''in case of being a retweet'''
                 tweet['source_tweet']['retweet'] = len(tweet['source_tweet']['retweet'])
+                tweet['source_tweet']['likes'] = len(tweet['source_tweet']['likes'])
             else:
                 '''in case of being a regular tweet'''
                 tweet['retweet'] = len(tweet['retweet'])
