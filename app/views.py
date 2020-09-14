@@ -144,6 +144,10 @@ def like_tweet():
             messsage='bad parameter'
         ), 400
     if tweet_id:
+        tweet = Tweet.query.filter_by(id=tweet_id).first()
+        if tweet.is_retweet:
+            tweet_id = tweet.source_tweet.id
+
         like_row = Like.query.filter_by(user_id=current_user.id, tweet_id=tweet_id).first()
         if not like_row:
             like = Like(tweet_id=tweet_id, user_id=current_user.id)

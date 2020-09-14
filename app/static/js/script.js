@@ -29,8 +29,12 @@ $(document).ready(()=>{
                 'text': tweetText,
                 'csrf_token': csrf_token
             },
+            beforeSend: function (xhr){
+                top_line_before_send();
+            },
             statusCode:{
                 201: function (response) {
+                    top_line_after_send();
                     $('#exampleFormControlTextarea1').val('');
                     generate_alert('You have posted a tweet', 3500, 'tweet-post-alert');
 
@@ -44,6 +48,7 @@ $(document).ready(()=>{
                     }
                 },
                 500: function () {
+                    top_line_after_send();
                     generate_alert('Posting tweet failed. Please try again later', 3500, 'delete-alert');
                 }
             }
@@ -66,6 +71,9 @@ $(document).ready(()=>{
                 data: {
                     tweet_id: tweet_id
                 },
+                beforeSend: function( xhr ) {
+                    top_line_before_send()
+                },
                 statusCode: {
                     200: function (response) {
                         if ( response['action'] == 'like'){
@@ -82,6 +90,7 @@ $(document).ready(()=>{
                         }
                         let like_count = (response['likes'] > 0) ? response['likes'] : '';
                         $('#like-count-' + tweet_id).text(like_count);
+                        top_line_after_send()
                     }
                 }
             });
@@ -107,8 +116,12 @@ $(document).ready(()=>{
                 data:{
                     tweet_id: tweet_id
                 },
+                beforeSend: function (xhr){
+                  top_line_before_send();
+                },
                 statusCode: {
                     200: function (response) {
+                        top_line_after_send();
                         $('.tweet[data-id='+ tweet_id +']').remove();
                         $('#confirm-delete-modal').modal('hide');
                         $('#exampleFormControlTextarea1').val('');
@@ -130,11 +143,16 @@ $(document).ready(()=>{
                 data: {
                     tweet_id: tweet_id
                 },
+                beforeSend: function (xhr){
+                    top_line_before_send();
+                },
                 statusCode: {
                     200: function (response) {
+                        top_line_after_send();
                         generate_alert('Tweet added to your bookmarks', 4000, 'tweet-post-alert')
                     },
                     409: function (response) {
+                        top_line_after_send();
                         generate_alert('Tweet is already in your bookmarks', 4000, 'tweet-post-alert')
                     }
                 }
@@ -375,4 +393,20 @@ function generate_tweet(tweet_data, type){
     </div>
     `;
     return tweet_div;
+}
+
+
+// top line functions
+function top_line_before_send() {
+    $('.top-line').show();
+    for(let i=1; i <= 10; i++){
+        $('.top-line').css('width', 5 * i + '%');
+    }
+}
+
+function top_line_after_send() {
+    for(let i=1; i <= 10; i++){
+        $('.top-line').css('width', 50 + (5 * i) + '%');
+    }
+    $('.top-line').hide();
 }

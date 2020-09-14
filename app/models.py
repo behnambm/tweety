@@ -85,15 +85,7 @@ class User(db.Model, UserMixin):
             offset(offset_count).
             limit(tweet_count)
         )
-        my_own_tweets = (
-            db.session.query(Tweet).
-            filter(Tweet.tweeted_by == self.id).
-            order_by(Tweet.tweeted_at.desc()).
-            offset(offset_count).
-            limit(tweet_count)
-        )
-        all_tweets = my_followings_tweets.union(my_own_tweets).order_by(Tweet.tweeted_at.desc())
-        return all_tweets
+        return my_followings_tweets
 
 
 class Like(db.Model):
