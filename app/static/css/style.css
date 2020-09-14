@@ -535,3 +535,9 @@ hr{
     font-size: 13px;
 }
 
+.top-line{
+    height: 3px;
+    width: 0%;
+    background-color: #19a0ff;
+    display: none;
+}
