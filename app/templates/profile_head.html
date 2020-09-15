@@ -1,7 +1,7 @@
 <div class="profile-holder-head d-block d-md-none">
     {% if profile_active %}
-    <h4 style="margin: 0">{{ user.display_name or user.username }}</h4>
-    <span class="profile-tweet-count">{{ user.tweets.count() }} Tweets</span>
+    <h4 style="margin: 0">{% if not not_found %}{{ user.display_name or user.username }}{% endif %}</h4>
+    <span class="profile-tweet-count">{% if not not_found %}{{ user.tweets.count() }}{% endif %} Tweets</span>
     {% else %}
     <a href="{{ url_for('profile', username=current_user.username) }}"><img src="{{ current_user.avatar_path }}"></a>
     <h4 style="margin: 0; padding-top: 5px;">Home</h4>
