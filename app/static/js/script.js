@@ -398,6 +398,7 @@ function generate_tweet(tweet_data, type){
 
 // top line functions
 function top_line_before_send() {
+    $('.profile-holder-head').css('margin-top', '3px');
     $('.top-line').show();
     for(let i=1; i <= 10; i++){
         $('.top-line').css('width', 5 * i + '%');
@@ -409,4 +410,5 @@ function top_line_after_send() {
         $('.top-line').css('width', 50 + (5 * i) + '%');
     }
     $('.top-line').hide();
+    $('.profile-holder-head').css('margin-top', '0');
 }
