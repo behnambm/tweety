@@ -564,6 +564,34 @@ def delete_bookmark():
     ), 400
 
 
+@app.route('/retweet', methods=['POST'])
+@login_required
+def retweet():
+    tweet_id = request.form.get('tweet_id');
+
+    if tweet_id:
+        tweet = Tweet.query.filter_by(id=tweet_id).first()
+        if tweet.is_retweet:
+            tweet_id = tweet.source_tweet.id
+        new_retweet = Tweet(
+            text=None,
+            tweeted_by=current_user.id,
+            is_retweet=True,
+            source_tweet_id=tweet_id
+        )
+        try:
+            db.session.add(new_retweet)
+            db.session.commit()
+            return jsonify(len=len(tweet.retweet))
+        except Exception as e:
+            print(e)
+            db.session.rollback()
+            return jsonify(message='server error'), 500\
+
+    else:
+        return jsonify(messsage='bad paramter'), 400
+
+
 @app.context_processor
 def post_tweet_form():  # to make post tweet form available in all templates
     return dict(post_tweet_form=PostTweetForm())

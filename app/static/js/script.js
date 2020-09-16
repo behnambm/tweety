@@ -226,6 +226,8 @@ function generate_tweet(tweet_data, type){
     likes_count = tweet_data['likes'];
 
     if (tweet_data['is_retweet']) {
+        retweeter_name_to_show = tweet_data['user']['display_name'] ? tweet_data['user']['display_name'] : tweet_data['user']['username']
+
         if (current_user_username && current_user_username == tweeter_username){
             //
             // this must be at first because we will change `tweeter_username` in the following codes
@@ -244,7 +246,6 @@ function generate_tweet(tweet_data, type){
 
         retweet_count = tweet_data['source_tweet']['retweet']
 
-        retweeter_name_to_show = tweet_data['user']['display_name'] ? tweet_data['user']['display_name'] : tweet_data['user']['username']
         retweeter_profile_link = generateUrl(tweet_data['user']['username']);
         retweet_head = `
         <a href="${retweeter_profile_link}" class="retweet-head cp">
@@ -412,3 +413,28 @@ function top_line_after_send() {
     $('.top-line').hide();
     $('.profile-holder-head').css('margin-top', '0');
 }
+
+
+// retweet functionality
+$(document).on('click', '.retweet-icon', function () {
+    let parent_tweet = $(this).parents('.tweet');
+    let tweet_id = parent_tweet.data('id');
+
+    $.ajax({
+        url: generateUrl('retweet'),
+        type: 'POST',
+        data: {
+            tweet_id: tweet_id
+        },
+        beforeSend: function () {
+            top_line_before_send();
+        },
+        statusCode: {
+            200: function (response) {
+                let retweet_length = response['len'];
+                $('#retweet-count-' + tweet_id).text(retweet_length);
+                top_line_after_send();
+            }
+        }
+    })
+})
