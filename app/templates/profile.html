@@ -45,7 +45,7 @@
                     {% endif %}
                     <div class="user-display-name"><b>{{ user.display_name or user.username }}</b></div>
                     <div class="user-username">@{{ user.username }}</div>
-                    <div class="user-bio">{{ user.bio or '' }}</div>
+                    <div class="user-bio">{% if user.bio %}{{ user.bio|replace('\n', '<br>'|safe) }}{% endif %}</div>
                     <div class="clear"></div>
                     <div class="joined-date">
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-calendar3" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

@@ -370,13 +370,13 @@ function generate_tweet(tweet_data, type){
                 </div>
                 ${ (type == 'main') ? 
                 (tweet_data['user']['username'] == current_user_username) ? '' :
-                `<div class="tweet-footer-bookmark col-1" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
+                `<div class="tweet-footer-bookmark col-2" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookmark cp ${(type == 'bookmark' ) ? 'delete-bookmarked-tweet' : '' }" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
                     </svg>
                 </div>`
                 : (tweet_data['tweeted_by'] == current_user_id) ? '' : 
-                `<div class="tweet-footer-bookmark col-1" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
+                `<div class="tweet-footer-bookmark col-2" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookmark cp ${(type == 'bookmark' ) ? 'delete-bookmarked-tweet' : '' }" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
                     </svg>
