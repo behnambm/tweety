@@ -639,3 +639,8 @@ hr{
     padding: 5px 0;
     text-align: center;
 }
+
+.tweet-footer-bookmark{
+    padding: 0;
+    text-align: center;
+}

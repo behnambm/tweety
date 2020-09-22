@@ -379,18 +379,18 @@ function generate_tweet(tweet_data, type){
                 </div>
                 ${ (type == 'main') ? 
                 (tweet_data['user']['username'] == current_user_username) ? '' :
-                `<div class="tweet-footer-bookmark col-2" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
+                `<div class="tweet-footer-bookmark col-1" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookmark cp ${(type == 'bookmark' ) ? 'delete-bookmarked-tweet' : '' }" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
                     </svg>
                 </div>`
                 : (tweet_data['tweeted_by'] == current_user_id) ? '' : 
-                `<div class="tweet-footer-bookmark col-2" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
+                `<div class="tweet-footer-bookmark col-1" ${ (type == 'bookmark') ? `data-toggle="tooltip" title="Remove tweet from bookmarks"` : ''}>
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-bookmark cp ${(type == 'bookmark' ) ? 'delete-bookmarked-tweet' : '' }" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M8 12l5 3V3a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12l5-3zm-4 1.234l4-2.4 4 2.4V3a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10.234z"/>
                     </svg>
                 </div>`}
-                <div class="tweet-footer-share col-1">
+                <div class="tweet-footer-share offset-1 col-">
                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-share cp" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M11.724 3.947l-7 3.5-.448-.894 7-3.5.448.894zm-.448 9l-7-3.5.448-.894 7 3.5-.448.894z"/>
                         <path fill-rule="evenodd" d="M13.5 4a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm0 10a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm-11-6.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm0 1a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/>
