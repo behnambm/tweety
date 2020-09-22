@@ -543,3 +543,99 @@ hr{
     background-color: #19a0ff;
     display: none;
 }
+
+.user-followers a:hover{
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.user-following a:hover{
+    text-decoration: underline !important;
+    cursor: pointer;
+}
+
+.users-list .row {
+    margin: 5px 0;
+    border-bottom: 2px solid #ccc;
+    padding: 5px 0;
+}
+
+.users-list .row:last-child{
+    border-bottom: none;
+}
+
+.users-list .row img {
+    width: 50px;
+    border-radius: 30px;
+}
+
+#followingsModal .modal-body{
+    padding: 5px 0;
+    text-align: center;
+}
+
+.users-list .row button{
+    outline: none;
+    border: none;
+    border-radius: 20px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.users-list .row button.follow-btn:hover{
+    color: #fff;
+    background-color: #19a0ff;
+}
+
+.users-list .row button.unfollow-btn:hover{
+    color: #fff;
+    background-color: #f90852;
+}
+
+.users-list .row a:hover{
+    cursor: pointer;
+}
+
+.users-list .button-holder{
+    display: flex;
+    align-items: center;
+}
+
+.users-list .user-display-name{
+    font-size: 1rem;
+    color: #222;
+}
+
+.users-list .user-bio{
+    font-size: 0.9rem;
+}
+
+.users-list .user-info-holder, .users-list .user-bio-holder{
+    text-align: left;
+}
+
+#followingsModal .modal-content{
+    overflow-x: hidden;
+    height: fit-content;
+    max-height: 95vh;
+    overflow-y: scroll;
+}
+
+.unfollow-btn{
+    background-color: #f9085208;
+    color: #f90852;
+    padding: 2px 10px;
+    box-shadow: 0 0 1px 1px #f90852;
+}
+
+.follow-btn{
+    background-color: #19a0ff0d;
+    color: #19a0ff;
+    padding: 2px 20px;
+    box-shadow: 0 0 1px 1px #19a0ff;
+}
+
+#followersModal .modal-body{
+    padding: 5px 0;
+    text-align: center;
+}

@@ -11,7 +11,8 @@ class MainUserSchema(ModelSchema):
             'avatar_path',
             'username',
             'display_name',
-            'id '
+            'id',
+            'bio'
         )
 
 

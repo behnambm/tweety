@@ -4,7 +4,7 @@ from .forms import PostTweetForm, EditProfileForm
 from .models import db, Tweet, User, Like, Bookmark
 from flask_security import login_required, current_user
 import time
-from app.schema import TweetSchema, MainTweetSchema
+from app.schema import TweetSchema, MainTweetSchema, MainUserSchema
 from app.functions import tweet_text_processor, send_mail, get_link_hash, create_link
 from email_validator import validate_email
 from flask_mail import Message
@@ -567,7 +567,7 @@ def delete_bookmark():
 @app.route('/retweet', methods=['POST'])
 @login_required
 def retweet():
-    tweet_id = request.form.get('tweet_id');
+    tweet_id = request.form.get('tweet_id')
 
     if tweet_id:
         tweet = Tweet.query.filter_by(id=tweet_id).first()
@@ -589,7 +589,68 @@ def retweet():
             return jsonify(message='server error'), 500\
 
     else:
-        return jsonify(messsage='bad paramter'), 400
+        return jsonify(messsage='bad parameter'), 400
+
+
+@app.route('/<username>/followings/', methods=['POST'])
+@login_required
+def followings(username):
+    count = request.form.get('count')
+    skip_count = request.form.get('skip_count')
+    if username and count and skip_count:
+        user_followings = User.query.filter_by(username=username).first()
+        user_followings = user_followings.followings.offset(skip_count).limit(count).all()
+        # check if any user of this list is followed by Currnet user
+        users_followed_by_current_user = []
+        for user in user_followings:
+            if user in current_user.followings.all():
+                # if any user is followed by current user add username to a list
+                users_followed_by_current_user.append(user.username)
+
+        user_serializer = MainUserSchema(many=True)
+        users = user_serializer.dump(user_followings)
+
+        # set the flag
+        for user in users:
+            if user['username'] in users_followed_by_current_user:
+                user['followed_by_me'] = True
+            else:
+                user['followed_by_me'] = False
+
+        return jsonify(users=users)
+
+    return jsonify(message='bad parameter'), 400
+
+
+@app.route('/<username>/followers/', methods=['POST'])
+@login_required
+def followers(username):
+    count = request.form.get('count')
+    skip_count = request.form.get('skip_count')
+    if username and count and skip_count:
+        user_followers = User.query.filter_by(username=username).first()
+        user_followers = user_followers.followers.offset(skip_count).limit(count).all()
+
+        # check if any user of this list is followed by Currnet user
+        users_followed_by_current_user = []
+        for user in user_followers:
+            if user in current_user.followings.all():
+                # if any user is followed by current user add username to a list
+                users_followed_by_current_user.append(user.username)
+
+        user_serializer = MainUserSchema(many=True)
+        users = user_serializer.dump(user_followers)
+
+        # set the flag
+        for user in users:
+            if user['username'] in users_followed_by_current_user:
+                user['followed_by_me'] = True
+            else:
+                user['followed_by_me'] = False
+
+        return jsonify(users=users)
+
+    return jsonify(message='bad parameter'), 400
 
 
 @app.context_processor

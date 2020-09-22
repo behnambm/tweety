@@ -275,8 +275,17 @@ function generate_tweet(tweet_data, type){
         time_to_show_to_user = '1h';
     } else if (sliced_time[1] == 'hours'){
         time_to_show_to_user = sliced_time[0] + 'h';
-    } else if (tweet_time == 'a day'){
+    } else if (tweet_time == 'a day') {
         time_to_show_to_user = '1d';
+    } else if (tweet_time == 'a month') {
+        let date_obj = new Date(tweet_data['tweeted_at'] * 1000);
+        let year = date_obj.getFullYear();
+        let month = date_obj.toLocaleString('default', {month: 'long'});
+        if (year == new Date().getFullYear()){
+            time_to_show_to_user = month + ' ' +  date_obj.getDate();
+        } else {
+            time_to_show_to_user = month + ' ' + date_obj.getDate() + ',' + year;
+        }
     } else if (sliced_time[1] == 'days' || sliced_time[1].indexOf('year') != -1 ){
         if ((sliced_time[1] == 'days' && parseInt(sliced_time[0]) > 6) || tweet_time.indexOf('year') != -1){
             let date_obj = new Date(tweet_data['tweeted_at'] * 1000);
@@ -296,7 +305,6 @@ function generate_tweet(tweet_data, type){
     if (tweet_data['liked_by_me'] == true){
         is_liked = true;
     }
-
 
     let tweet_div = `
     <div class="tweet" data-id="${tweet_id}">

@@ -55,8 +55,18 @@
                         Joined {{ user.confirmed_at.strftime('%B %Y') }}
                     </div>
                     <div class="follow-count">
-                        <div class="user-following">{{ user.followings.count() }} <span style="color: #888">Following</span></div>
-                        <div class="user-followers">{{ user.followers.count() }} <span style="color: #888">Followers</span></div>
+                        <div class="user-following">
+                            <a data-toggle="modal" data-target="#followingsModal">
+                                {{ user.followings.count() }}
+                                <span style="color: #888">Following</span>
+                            </a>
+                        </div>
+                        <div class="user-followers">
+                            <a data-toggle="modal" data-target="#followersModal">
+                                {{ user.followers.count() }}
+                                <span style="color: #888">Followers</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,6 +110,9 @@ todo -> user media, search input
 {% if request.view_args.username == current_user.username %}
 {% include 'edit_profile_modal.html' %}
 {% endif %}
+
+{# modal for followings and followers #}
+{% include 'follow_modal.html' %}
 
 {% endblock %}
 
