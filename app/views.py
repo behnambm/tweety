@@ -459,6 +459,7 @@ def get_bookmarks():
             db.session.query(Tweet).
             join(Bookmark, Bookmark.tweet_id == Tweet.id).
             filter(User.id == Bookmark.user_id).
+            filter(Bookmark.user_id == current_user.id).
             order_by(Bookmark.created_at.desc()).
             offset(offset_count).
             limit(tweet_count)
