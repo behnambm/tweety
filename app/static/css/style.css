@@ -538,10 +538,14 @@ hr{
 }
 
 .top-line{
-    height: 3px;
+    height: 4px;
     width: 0%;
     background-color: #19a0ff;
     display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 999;
 }
 
 .user-followers a:hover{
