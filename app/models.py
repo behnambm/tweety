@@ -87,6 +87,11 @@ class User(db.Model, UserMixin):
         )
         return my_followings_tweets
 
+    def retweets(self):
+        return Tweet.query.filter(
+            (Tweet.tweeted_by == self.id) &
+            (Tweet.is_retweet == True)
+        )
 
 class Like(db.Model):
     __tablename__ = 'tweety__like'

@@ -573,7 +573,22 @@ def retweet():
     if tweet_id:
         tweet = Tweet.query.filter_by(id=tweet_id).first()
         if tweet.is_retweet:
+            # breakpoint()
+            if any(tw in current_user.retweets().all() for tw in tweet.source_tweet.retweet):
+                '''
+                    to prevent retweet more than once
+                    for both tweets that are belong to 
+                    cueeent_user and tweets that are from 
+                    other users
+                '''
+                # breakpoint()
+                return jsonify(message="you can't retweet more than once.")
             tweet_id = tweet.source_tweet.id
+        else:
+            if any(tw in current_user.retweets().all() for tw in tweet.retweet):
+                # same as retweet section.
+                # to prevent retweet more than once.
+                return jsonify(message="you can't retweet more than once.")
         new_retweet = Tweet(
             text=None,
             tweeted_by=current_user.id,
