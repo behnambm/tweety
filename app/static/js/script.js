@@ -312,7 +312,9 @@ function generate_tweet(tweet_data, type){
             ${retweet_head ? retweet_head : ''}
             <div class="tweet-user-link-area">
             <div class="user-avatar fl">
-                <img src="${tweeter_avatar_path}" alt="this user">
+                <a href="${tweeter_profile_link}" class="profile-name-link">
+                    <img src="${tweeter_avatar_path}" alt="this user">
+                </a>
             </div>
             <a href="${tweeter_profile_link}" class="profile-name-link">
                 <div class="user-name fl">

@@ -55,7 +55,7 @@ button:hover{
 }
 
 .right .inner-buttons .login-btn button{
-    padding: 4px 4rem;
+    padding: 4px 3.9rem;
 }
 
 .right .github-page button{
@@ -78,6 +78,10 @@ button:hover{
 
     .left{
         padding-bottom: 30px;
+    }
+
+    .left img{
+        width: 200px;
     }
 }
 
