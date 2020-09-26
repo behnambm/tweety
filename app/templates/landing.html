@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/landing.css') }}">
+     <link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/ab7265871d.js" crossorigin="anonymous"></script>
+    <title>Document</title>
+</head>
+<body>
+<div class="container">
+    <div class="left">
+        <img src="{{ url_for('static', filename='img/Twitter_Logo_Blue.png') }}" alt="">
+        <p>
+        A
+        light-weight
+        Twitter clone.
+        </p>
+    </div>
+    <div class="right">
+        <div class="inner-buttons">
+            <div class="login-btn">
+                <a href="{{ url_for('security.login') }}">
+                <button>Login</button>
+                </a>
+            </div>
+            <div class="register-btn">
+                <a href="{{ url_for('security.register') }}">
+                <button>Register</button>
+                </a>
+            </div>
+        </div>
+
+        <div class="github-page">
+            <a href="https://github.com/behnambm/tweety/" target="_blank">
+                <button>
+                    <i class="fab fa-github"></i>
+                    Repo on Github
+                </button>
+            </a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

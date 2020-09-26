@@ -12,8 +12,10 @@ import os
 
 
 @app.route('/')
-@login_required
 def index():
+    if not current_user.is_authenticated:
+        return render_template('landing.html')
+
     return render_template('home.html', home_active=True)
 
 

@@ -1,0 +1,83 @@
+*{
+    padding: 0;
+    margin: 0;
+    user-select: none;
+}
+
+.container{
+    display: flex;
+    height: 100vh;
+}
+
+button{
+    padding: 4px 15px;
+    outline: none;
+    border: none;
+}
+
+button:hover{
+    cursor: pointer;
+}
+
+.right, .left{
+    flex: 50%;
+    text-align: center;
+}
+
+.left img{
+    width: 300px;
+}
+
+.left p {
+    font-family: 'Courgette', cursive;
+    font-size: 1.6rem;
+}
+
+.right{
+    justify-content: space-around;
+    flex-direction: column;
+    display: flex;
+    background-color: #1da1f2;
+}
+
+.right .inner-buttons{
+    display: flex;
+    flex-direction: column;
+}
+
+.right .inner-buttons button{
+    margin: 10px 5px;
+    background-color: #FFF;
+    font-size: 1.4rem;
+    color: #1da1f2;
+    border-radius: 40px;
+    padding: 4px 3rem;
+}
+
+.right .inner-buttons .login-btn button{
+    padding: 4px 4rem;
+}
+
+.right .github-page button{
+    background-color: #24292e;
+    color: #FFF;
+    padding: 10px;
+    font-size: 1.3rem;
+    border-radius: 3px;
+}
+
+
+@media (max-width: 576px){
+    .container{
+        flex-direction: column;
+    }
+
+    .right{
+        min-height: 80vh;
+    }
+
+    .left{
+        padding-bottom: 30px;
+    }
+}
+
